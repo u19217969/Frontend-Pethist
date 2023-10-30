@@ -1,0 +1,349 @@
+<div
+  class="container lg:max-w-screen-2xl md:max-w-screen-2xl sm:max-w-screen-2xl px-5 mt-3"
+>
+  <app-card cardTitle="">
+    <div class="grid grid-cols-10 gap-4 m-auto">
+      <app-input-text
+        class="sm:col-span-12 md:col-span-12 lg:col-span-3 xl:col-span-3 col-span-full"
+        inputId="filtro"
+        inputTitle="Filtro"
+        inputPlaceHolder="Ingrese filtro"
+        inputType="text"
+        svgUrl="assets/svg/magnifying-glass-solid.svg"
+        (send)="formUsuariosFiltros.get('filtro')?.setValue($event)"
+      ></app-input-text>
+      <app-input-select
+        inputId="tipoDocumento"
+        class="sm:col-span-12 md:col-span-4 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputTitle="Tipo documento"
+        [options]="listaTipoDocumento"
+        (send)="
+          formUsuariosFiltros.get('idTipoDocumento')?.setValue($event.idMaestro)
+        "
+      ></app-input-select>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputId="nroDocumento"
+        inputTitle="Nro Documento"
+        inputPlaceHolder="Ingrese nro documento"
+        inputType="text"
+        (send)="formUsuariosFiltros.get('nroDocumento')?.setValue($event)"
+      ></app-input-text>
+      <app-input-select
+        inputId="tipoUsuario"
+        class="sm:col-span-12 md:col-span-4 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputTitle="Tipo Usuario"
+        [options]="listaTipoUsuario"
+        (send)="
+          formUsuariosFiltros.get('idTipoUsuario')?.setValue($event.idMaestro)
+        "
+      ></app-input-select>
+      <app-input-button-filter
+        class="sm:col-span-12 md:col-span-12 lg:col-span-1 xl:col-span-1 col-span-full"
+        inputTitle="Aplicar"
+        (click)="listarUsuario(1)"
+      ></app-input-button-filter>
+    </div>
+  </app-card>
+  <div class="p-2">
+    <div class="grid grid-cols-10">
+      <p
+        style="margin-top: 30px"
+        class="sm:col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8 col-span-full subtitulo"
+      >
+        Registros de usuarios
+      </p>
+      <app-input-button-add
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full p-1"
+        inputTitle="Nuevo Usuario"
+        (click)="mostrarAgregarUsuario()"
+      ></app-input-button-add>
+      <div class="col-span-12">
+        <app-grid
+          [listaCabecera]="dataCabeceraUsuario"
+          [listaDetalle]="dataDetalleUsuario"
+          [totalPage]="totalPages"
+          [currentPage]="currentPage"
+          [totalCount]="totalCount"
+          [numeroTotalPage]="numeroTotalPages"
+          (sendView)="verUsuario($event)"
+          (sendEdit)="editarUsuario($event)"
+          (sendDelete)="confirmacionUsuario($event)"
+          (sendAcceso)="accesoUsuario($event)"
+          [acceso]="true"
+          (sendPagination)="listarUsuario($event)"
+        ></app-grid>
+      </div>
+    </div>
+  </div>
+
+  <app-modal
+    [visible]="modalUsuarioVisible"
+    [title]="
+      tipoModal === 4
+        ? 'Ver Usuario'
+        : tipoModal === 2
+        ? 'Editar Usuario'
+        : 'Nuevo Usuario'
+    "
+    (close)="modalUsuarioVisible = false"
+    size="w-3/4"
+  >
+    <div class="grid grid-cols-12 gap-4 m-auto">
+      <app-input-select
+        inputId="tipoDocumentoModal"
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        [inputValor]="usuarioMantenimiento.nombreTipoDocumento!"
+        inputTitle="Tipo Documento"
+        [options]="listaTipoDocumento"
+        (send)="
+          formMantenimientoUsuario
+            .get('idTipoDocumento')
+            ?.setValue($event.idMaestro)
+        "
+      ></app-input-select>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputId="nroDocumentoModal"
+        inputTitle="Nro documento"
+        [inputValor]="this.formMantenimientoUsuario.get('nroDocumento')!.value"
+        inputPlaceHolder="Ingrese nro documento"
+        inputType="text"
+        (send)="formMantenimientoUsuario.get('nroDocumento')?.setValue($event)"
+      ></app-input-text>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-6 lg:col-span-8 xl:col-span-8 col-span-full"
+        inputId="nombre"
+        inputTitle="Nombre completo"
+        [inputValor]="this.formMantenimientoUsuario.get('nombreUsuario')!.value"
+        inputPlaceHolder="Ingrese nombre completo"
+        inputType="text"
+        (send)="formMantenimientoUsuario.get('nombreUsuario')?.setValue($event)"
+      ></app-input-text>
+
+      <app-input-select
+        inputId="tipoUsuarioModal"
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        [inputValor]="usuarioMantenimiento.nombreTipoUsuario!"
+        inputTitle="Tipo usuario"
+        [options]="listaTipoUsuario"
+        (send)="
+          formMantenimientoUsuario
+            .get('idTipoUsuario')
+            ?.setValue($event.idMaestro)
+        "
+      ></app-input-select>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        inputId="login"
+        inputTitle="Login"
+        [inputValor]="this.formMantenimientoUsuario.get('login')!.value"
+        inputPlaceHolder="Ingrese login"
+        inputType="text"
+        (send)="formMantenimientoUsuario.get('login')?.setValue($event)"
+      ></app-input-text>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        inputId="clave"
+        inputTitle="Clave"
+        [inputValor]="this.formMantenimientoUsuario.get('clave')!.value"
+        inputPlaceHolder="Ingrese clave"
+        inputType="password"
+        (send)="formMantenimientoUsuario.get('clave')?.setValue($event)"
+      ></app-input-text>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        inputId="correo"
+        inputTitle="Correo"
+        [inputValor]="this.formMantenimientoUsuario.get('correo')!.value"
+        inputPlaceHolder="Ingrese correo"
+        inputType="text"
+        (send)="formMantenimientoUsuario.get('correo')?.setValue($event)"
+      ></app-input-text>
+    </div>
+    <div class="flex justify-center mt-5" *ngIf="tipoModal !== 4">
+      <div class="w-1/4">
+        <app-input-button-modal
+          type="white"
+          typeColorText="blue-400"
+          inputTitle="Cancelar"
+          (click)="modalUsuarioVisible = false"
+        ></app-input-button-modal>
+      </div>
+      <div class="w-1/4 ml-2">
+        <app-input-button-modal
+          class="opacity-60"
+          *ngIf="!formMantenimientoUsuario.valid"
+          type="blue"
+          typeColorText="white"
+          inputTitle="Guardar"
+        ></app-input-button-modal>
+        <app-input-button-modal
+          *ngIf="formMantenimientoUsuario.valid"
+          type="blue"
+          typeColorText="white"
+          inputTitle="Guardar"
+          (click)="preAgregarUsuario()"
+        ></app-input-button-modal>
+      </div>
+    </div>
+  </app-modal>
+  <app-modal-actions
+    [visible]="modalAccionesVisible"
+    title=""
+    [svgUrl]="svg"
+    [descripcion]="mensaje"
+    (close)="eliminarUsuario($event)"
+    [confirmacion]="confirmacion"
+    size="w-96"
+  ></app-modal-actions>
+  <app-modal
+    [visible]="modalAccesoVisible"
+    (close)="modalAccesoVisible = false"
+    size="w-3/4"
+  >
+    <section class="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
+      <div class="container shadow-lg h-full">
+        <div
+          class="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200"
+        >
+          <div class="w-full">
+            <div
+              class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800"
+            >
+              <div class="g-0 lg:flex lg:flex-wrap">
+                <div class="px-4 md:px-0 lg:w-6/12">
+                  <div class="md:p-4">
+                    <p
+                      class="sm:col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8 col-span-full subtitulo"
+                    >
+                      Menu
+                    </p>
+                    <div
+                      class="bg-white rounded-lg flex items-center justify-between space-x-8"
+                      *ngFor="let item of listMenuAcceso"
+                    >
+                      <div class="flex-1 flex justify-between items-center">
+                        <div class="p-2 mt-2 w-48 bg-gray-300 rounded">
+                          {{ item.nombre }}
+                        </div>
+                        <div class="p-2 mt-2 w-24 rounded-lg">
+                          <div class="flex flex-row-reverse">
+                            <div>
+                              <app-input-check
+                                size="w-5 h-5"
+                                [check]="item.acceso!"
+                                (send)="item.acceso=$event"
+                              ></app-input-check>
+                            </div>
+                            <div class="p-1">
+                              <img
+                                (click)="
+                                  obtenerMenuHijo(item.usuarioAccesoHijo!)
+                                "
+                                class="w-4"
+                                src="assets/svg/eye-solid.svg"
+                                alt=""
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="px-4 md:px-0 lg:w-6/12">
+                  <div class="md:p-4">
+                    <p
+                      class="sm:col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8 col-span-full subtitulo"
+                    >
+                      Sub-menu
+                    </p>
+                    <div
+                      class="bg-white rounded-lg space-x-8"
+                      *ngFor="let itemHijo of seleccionMenuHijo"
+                    >
+                      <div class="flex-1 flex justify-between items-center">
+                        <div class="p-2 mt-2 w-48 bg-gray-300 rounded">
+                          {{ itemHijo.nombre }}
+                        </div>
+                        <div class="p-2 mt-2 w-24 rounded-lg">
+                          <div class="flex flex-row-reverse">
+                            <div>
+                              <app-input-check
+                                size="w-5 h-5"
+                                [check]="itemHijo.acceso!"
+                                (send)="itemHijo.acceso=$event"
+                              ></app-input-check>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div style="margin-left: 0px !important" class="mt-2">
+                        Tipo de accesos:
+                        <div>
+                          <div class="p-1">
+                            <app-input-check
+                              size="w-5 h-5"
+                              [check]="itemHijo.ver!"
+                              title="Ver"
+                              (send)="itemHijo.ver=$event"
+                            ></app-input-check>
+                          </div>
+                          <div class="p-1">
+                            <app-input-check
+                              size="w-5 h-5"
+                              [check]="itemHijo.registrar!"
+                              title="Registrar"
+                              (send)="itemHijo.registrar=$event"
+                            ></app-input-check>
+                          </div>
+                          <div class="p-1">
+                            <app-input-check
+                              size="w-5 h-5"
+                              [check]="itemHijo.actualizar!"
+                              title="Actualizar"
+                              (send)="itemHijo.actualizar=$event"
+                            ></app-input-check>
+                          </div>
+                          <div class="p-1">
+                            <app-input-check
+                              size="w-5 h-5"
+                              [check]="itemHijo.eliminar!"
+                              title="Eliminar"
+                              (send)="itemHijo.eliminar=$event"
+                            ></app-input-check>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex justify-center p-4">
+                <div class="w-1/4">
+                  <app-input-button-modal
+                    type="white"
+                    typeColorText="blue-400"
+                    inputTitle="Cancelar"
+                    (click)="modalAccesoVisible = false"
+                  ></app-input-button-modal>
+                </div>
+                <div class="w-1/4 ml-2">
+                  <app-input-button-modal
+                    (click)="registrarAcceso()"
+                    type="blue"
+                    typeColorText="white"
+                    inputTitle="Guardar"
+                  ></app-input-button-modal>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </app-modal>
+</div>

@@ -1,0 +1,157 @@
+<div
+  class="container lg:max-w-screen-2xl md:max-w-screen-2xl sm:max-w-screen-2xl px-5 mt-3"
+>
+  <app-card cardTitle="">
+    <div class="grid grid-cols-12 gap-4 m-auto">
+      <app-input-select
+        inputId="idDoctor"
+        class="sm:col-span-12 md:col-span-4 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputTitle="Doctor"
+        [options]="listaVeterinario"
+        (send)="formCitas.get('idDoctor')?.setValue($event.idMaestro)"
+      ></app-input-select>
+      <app-input-select
+        inputId="idMascota"
+        class="sm:col-span-12 md:col-span-4 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputTitle="Mascota"
+        [options]="listaMascota"
+        (send)="formCitas.get('idMascota')?.setValue($event.idMaestro)"
+      ></app-input-select>
+      <app-input-date
+        class="sm:col-span-12 md:col-span-4 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputId="fechaCita"
+        inputTitle="Fecha"
+        [inputValor]="this.formCitas.get('fechaCita')!.value"
+        (send)="consultarFecha($event)"
+      ></app-input-date>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-12 lg:col-span-5 xl:col-span-5 col-span-full"
+        inputId="motivo"
+        inputTitle="Motivo"
+        [inputValor]="this.formCitas.get('motivo')!.value"
+        inputPlaceHolder="Motivo"
+        inputType="text"
+        (send)="formCitas.get('motivo')?.setValue($event)"
+      ></app-input-text>
+      <app-input-button-modal
+        *ngIf="!formCitas.valid"
+        class="opacity-60 sm:col-span-12 md:col-span-12 lg:col-span-1 xl:col-span-1 col-span-full mt-6"
+        inputTitle="Guardar"
+        type="blue"
+        typeColorText="white"
+      ></app-input-button-modal>
+      <app-input-button-modal
+        *ngIf="formCitas.valid"
+        class="sm:col-span-12 md:col-span-12 lg:col-span-1 xl:col-span-1 col-span-full mt-6"
+        inputTitle="Guardar"
+        type="blue"
+        (click)="registrarCita()"
+        typeColorText="white"
+      ></app-input-button-modal>
+    </div>
+  </app-card>
+  <div class="p-2">
+    <div class="grid grid-cols-10">
+      <div class="col-span-12">
+        <div class="mt-3">
+          <app-card cardTitle="" colorFondo="bg-[#f3f3f3] p-2">
+            <div class="flex justify-center gap-4">
+              <div
+                class="flex flex-col p-1 bg-[#eb4d4b] w-32 border-rose-500 text-white rounded mt-1"
+              >
+                <div class="text-center">Reservado</div>
+              </div>
+              <div
+                class="flex flex-col p-1 bg-white w-32 border-rose-500 text-black rounded mt-1"
+              >
+                <div class="text-center">Disponible</div>
+              </div>
+              <div
+                class="flex flex-col p-1 bg-[#f6b93b] w-32 border-rose-500 text-white rounded mt-1"
+              >
+                <div class="text-center">Tus Reservas</div>
+              </div>
+              <div
+                class="flex flex-col p-1 bg-green-600 w-32 border-rose-500 text-white rounded mt-1"
+              >
+                <div class="text-center">Seleccionar</div>
+              </div>
+            </div>
+          </app-card>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-2">
+    <div class="grid grid-cols-10">
+      <div class="col-span-12">
+        <div class="mt-3">
+          <app-card cardTitle="">
+            <div class="overflow-x-auto">
+              <div class="rounded-lg flex items-center space-x-8">
+                <div
+                  class="flex flex-col content-start mt-2"
+                  *ngFor="let item of listaHorario; let iH = index"
+                >
+                  <div
+                    class="flex flex-col p-1 w-32 bg-[#2b92e4] rounded text-white"
+                  >
+                    <div class="text-center">{{ item.nombreDia }}</div>
+                    <div class="text-center">
+                      {{ item.fecha | date : "dd/MM/yyyy" }}
+                    </div>
+                  </div>
+                  <div *ngFor="let itemHorario of item.horario; let i = index">
+                    <div
+                      *ngIf="itemHorario.disponibilidad"
+                      [class]="
+                        itemHorario.seleccion
+                          ? 'bg-green-600 text-white'
+                          : 'bg-white'
+                      "
+                      class="cursor-pointer flex flex-col p-1 w-32 border-rose-500 rounded mt-1"
+                      (click)="
+                        obtenerFechaActual(item.fecha, itemHorario.hora!, iH, i)
+                      "
+                    >
+                      <div class="text-center">{{ itemHorario.hora }}</div>
+                    </div>
+                    <div
+                      *ngIf="!itemHorario.disponibilidad"
+                      [class]="
+                        !itemHorario.miCita ? 'bg-[#f6b93b]' : 'bg-[#eb4d4b]'
+                      "
+                      class="flex flex-col p-1 w-32 border-rose-500 text-white rounded mt-1"
+                    >
+                      <div class="text-center">{{ itemHorario.hora }}</div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="flex flex-col p-1 w-32 bg-[#2b92e4] rounded text-white mt-1"
+                  >
+                    <div class="text-center">{{ item.nombreDia }}</div>
+                    <div class="text-center">
+                      {{ item.fecha | date : "dd/MM/yyyy" }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </app-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-modal-actions
+    [visible]="modalAccionesVisible"
+    title=""
+    [svgUrl]="svg"
+    [descripcion]="mensaje"
+    (close)="modalAccionesVisible = false"
+    [redireccionar]="redireccionar"
+    [confirmacion]="confirmacion"
+    size="w-96"
+  ></app-modal-actions>
+</div>

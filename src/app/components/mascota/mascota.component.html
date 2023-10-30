@@ -1,0 +1,188 @@
+<div
+  class="container lg:max-w-screen-2xl md:max-w-screen-2xl sm:max-w-screen-2xl px-5 mt-3"
+>
+  <app-card cardTitle="">
+    <div class="grid grid-cols-12 gap-4 m-auto">
+      <app-input-text
+        class="sm:col-span-12 md:col-span-12 lg:col-span-3 xl:col-span-3 col-span-full"
+        inputId="filtro"
+        inputTitle="Filtro"
+        inputPlaceHolder="Ingrese filtro"
+        inputType="text"
+        svgUrl="assets/svg/magnifying-glass-solid.svg"
+        (send)="formMascotaFiltros.get('filtro')?.setValue($event)"
+      ></app-input-text>
+      <app-input-select
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputTitle="Genero"
+        [options]="listaGenero"
+        (send)="obtenerDatosCombo(1, $event)"
+      ></app-input-select>
+      <app-input-select
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputTitle="Tipo"
+        [options]="listaTipo"
+        (send)="obtenerDatosCombo(2, $event)"
+      ></app-input-select>
+      <app-input-date
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputId="fechaNacimiento"
+        inputTitle="Fecha Nacimiento"
+        (send)="formMascotaFiltros.get('fechaNacimiento')?.setValue($event)"
+      ></app-input-date>
+      <app-input-select
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputTitle="Cliente"
+        [options]="listaCliente"
+        (send)="obtenerDatosCombo(3, $event)"
+      ></app-input-select>
+      <app-input-button-filter
+        class="sm:col-span-12 md:col-span-12 lg:col-span-1 xl:col-span-1 col-span-full"
+        inputTitle="Aplicar"
+        (click)="listarMascota(1)"
+      ></app-input-button-filter>
+    </div>
+  </app-card>
+  <div class="p-2">
+    <div class="grid grid-cols-10">
+      <p
+        style="margin-top: 30px"
+        class="sm:col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8 col-span-full subtitulo"
+      >
+        Registros de mascotas
+      </p>
+      <app-input-button-add
+        (click)="mostrarAgregarMascota()"
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full p-1"
+        inputTitle="Nueva Mascota"
+      ></app-input-button-add>
+      <div class="col-span-12">
+        <app-grid
+          [listaCabecera]="dataCabeceraMascota"
+          [listaDetalle]="dataDetalleMascota"
+          [totalPage]="totalPages"
+          [currentPage]="currentPage"
+          [totalCount]="totalCount"
+          [numeroTotalPage]="numeroTotalPages"
+          (sendView)="verMascota($event)"
+          (sendEdit)="editarMascota($event)"
+          (sendDelete)="confirmacionMascota($event)"
+          (sendPagination)="listarMascota($event)"
+        ></app-grid>
+      </div>
+    </div>
+  </div>
+
+  <app-modal
+    [visible]="modalAgregarMascotaVisible"
+    [title]="
+      tipoModal === 4
+        ? 'Ver Mascota'
+        : tipoModal === 2
+        ? 'Editar Mascota'
+        : 'Nueva Mascota'
+    "
+    (close)="modalAgregarMascotaVisible = false"
+    size="w-3/4"
+  >
+    <div class="grid grid-cols-12 gap-4 m-auto">
+      <app-input-select
+        inputId="listaGenero"
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        [inputValor]="mascotaMantenimiento.nombreGenero!"
+        inputTitle="Genero"
+        [options]="listaGenero"
+        [noEditable]="tipoModal===4?true:false"
+        (send)="obtenerDatosCombo(4, $event)"
+      ></app-input-select>
+      <app-input-select
+        inputId="listaTipo"
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        [inputValor]="mascotaMantenimiento.nombreTipo!"
+        inputTitle="Tipo"
+        [options]="listaTipo"
+        [noEditable]="tipoModal===4?true:false"
+        (send)="obtenerDatosCombo(5, $event)"
+      ></app-input-select>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6 col-span-full"
+        inputId="nombreMascota"
+        inputTitle="Nombre"
+        [inputValor]="this.formMantenimientoMascota.get('nombreMascota')!.value"
+
+        inputPlaceHolder="Ingrese nombre mascota"
+        inputType="text"
+        [disableInput]="tipoModal===4?true:false"
+        (send)="formMantenimientoMascota.get('nombreMascota')?.setValue($event)"
+      ></app-input-text>
+      <app-input-date
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        inputId="fechaNacimiento"
+        [inputValor]="
+          this.formMantenimientoMascota.get('fechaNacimiento')!.value
+        "
+        inputTitle="Fecha nacimiento"
+        [noEditable]="tipoModal===4?true:false"
+        (send)="
+          formMantenimientoMascota.get('fechaNacimiento')?.setValue($event)
+        "
+      ></app-input-date>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-9 lg:col-span-3 xl:col-span-3 col-span-full"
+        inputId="colorMascota"
+        inputTitle="Color"
+        [inputValor]="this.formMantenimientoMascota.get('colorMascota')!.value"
+        inputPlaceHolder="Ingrese color"
+        [disableInput]="tipoModal===4?true:false"
+        inputType="text"
+
+        (send)="formMantenimientoMascota.get('colorMascota')?.setValue($event)"
+      ></app-input-text>
+      <app-input-select
+        *ngIf="flAdmin"
+        inputId="listaCliente"
+        class="sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6 col-span-full"
+        [inputValor]="mascotaMantenimiento.nombreUsuario!"
+        inputTitle="Cliente"
+        [options]="listaCliente"
+        [noEditable]="tipoModal===4?true:false"
+        (send)="obtenerDatosCombo(6, $event)"
+      ></app-input-select>
+    </div>
+    <div class="flex justify-center mt-5" *ngIf="tipoModal !== 4">
+      <div class="w-1/4">
+        <app-input-button-modal
+          type="white"
+          typeColorText="blue-400"
+          inputTitle="Cancelar"
+          (click)="modalAgregarMascotaVisible = false"
+        ></app-input-button-modal>
+      </div>
+      <div class="w-1/4 ml-2">
+        <app-input-button-modal
+          class="opacity-60"
+          *ngIf="!formMantenimientoMascota.valid"
+          type="blue"
+          typeColorText="white"
+          inputTitle="Guardar"
+        ></app-input-button-modal>
+        <app-input-button-modal
+          *ngIf="formMantenimientoMascota.valid"
+          type="blue"
+          typeColorText="white"
+          inputTitle="Guardar"
+          (click)="preAgregarMascota()"
+        ></app-input-button-modal>
+      </div>
+    </div>
+  </app-modal>
+  <app-modal-actions
+    [visible]="modalAccionesVisible"
+    title=""
+    [svgUrl]="svg"
+    [descripcion]="mensaje"
+    (close)="eliminarMascota($event)"
+    [confirmacion]="confirmacion"
+    size="w-96"
+  ></app-modal-actions>
+</div>

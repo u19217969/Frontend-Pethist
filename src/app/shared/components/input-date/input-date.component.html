@@ -1,0 +1,17 @@
+<div>
+  <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-white"
+    >{{ inputTitle }}
+  </label>
+
+  <div class="relative">
+    <input
+      [id]="inputId"
+      [value]="inputValor"
+      type="date"
+      class="text-sm outline-none border-[1.2px] rounded-md block w-full p-2.5"
+      name="date"
+      [readOnly]="noEditable"
+      (change)="enviarFecha($event)"
+    />
+  </div>
+</div>

@@ -1,0 +1,7 @@
+{
+  "name": "FrontEndPetHist",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

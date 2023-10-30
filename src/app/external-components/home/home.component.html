@@ -1,0 +1,464 @@
+<body class="overflow-auto">
+  <nav class="relative px-4 py-4 flex justify-between items-center nav-color">
+    <a class="text-3xl font-bold leading-none" href="javascript:void(0);">
+      <img class="w-14" src="assets/images/logoPetHist.png" alt="" />
+    </a>
+    <ul
+      class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 shadow-xl px-8 py-3 rounded-2xl ul-color"
+    >
+      <li class="px-2">
+        <a class="text-sm li-color-text" href="#inicio">Inicio</a>
+      </li>
+      <!--<li class="text-gray-300">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          stroke="currentColor"
+          class="w-4 h-4 current-fill"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+          />
+        </svg>
+      </li>-->
+      <li class="px-2">
+        <a
+          href="#nuestraveterinaria"
+          class="text-sm li-color-text hover:text-gray-500"
+          >Nuestra Veterinaria</a
+        >
+      </li>
+      <!-- <li class="text-gray-300">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          stroke="currentColor"
+          class="w-4 h-4 current-fill"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+          />
+        </svg>
+      </li> -->
+      <li class="px-2">
+        <a href="#servicios" class="text-sm li-color-text hover:text-gray-500"
+          >Servicios</a
+        >
+      </li>
+      <!-- <li class="text-gray-300">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          stroke="currentColor"
+          class="w-4 h-4 current-fill"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+          />
+        </svg>
+      </li> -->
+      <li class="px-2">
+        <a href="#contacto" class="text-sm li-color-text hover:text-gray-500"
+          >Contacto</a
+        >
+      </li>
+      <!-- <li class="text-gray-300">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          stroke="currentColor"
+          class="w-4 h-4 current-fill"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+          />
+        </svg>
+      </li> -->
+    </ul>
+    <a
+      class="hidden lg:inline-block py-2 px-6 text-sm font-bold rounded-xl color-logo2"
+      href="./login"
+      >Ingresar</a
+    >
+  </nav>
+  <div id="inicio" class="nav-color">
+    <div class="p-10 container m-auto">
+      <section class="text-gray-800">
+        <div class="flex">
+          <!-- Primera columna con 2 filas -->
+          <div class="flex flex-col">
+            <div class="p-2">
+              <h1 class="font-bold mb-12 px-6 titulo-inicio">
+                Veterinaria PetHist
+              </h1>
+
+              <div class="px-6 text-left text-black mb-5 mt-8">
+                En nuestra veterinaria, velamos por la salud y felicidad de tus
+                fieles amigos. ¡Juntos hacemos el mejor equipo!
+              </div>
+              <div class="text-left px-6">
+                <a
+                  class="hidden lg:inline-block py-2 px-6 color-logo text-sm font-bold rounded-2xl"
+                  href="#"
+                  >Ingresar</a
+                >
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="px-6 mt-6">
+                <app-carousel
+                  class="rounded-xl"
+                  imageUrlUno="assets/images/consulta.jpg"
+                  imageUrlDos="assets/images/vacuna.jpg"
+                  imageUrlTres="assets/images/cirugia.jpg"
+                  imageUrlCuatro="assets/images/asesoria.jpg"
+                >
+                </app-carousel>
+              </div>
+            </div>
+          </div>
+
+          <!-- Segunda columna con 1 fila -->
+          <div class="p-2">
+            <div align="center">
+              <img
+                class="inicio-img"
+                src="../../../assets/images/inicio1.png"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="nuestraveterinaria" class="px-5 mt-3 bg-coloresPer-texto">
+    <!--<app-card cardTitle="">-->
+    <div class="p-10 container m-auto">
+      <section class="text-gray-800">
+        <div class="grid grid-cols-8 gap-4 p-2 text-center">
+          <div
+            class="sm:col-span-8 md:col-span-5 lg:col-span-5 xl:col-span-5 col-span-full text-md"
+          >
+            <div
+              class="sm:col-span-8 md:col-span-5 lg:col-span-5 xl:col-span-5 col-span-full text-md"
+            >
+              <h2 class="mb-12 px-6 subtitulos">Nuestra veterinaria</h2>
+            </div>
+            <div class="mb-12 px-10 text-black my-10">
+              En la veterinaria PetHist llevan 5 años precoupándose por la salud
+              de nuestras mascotas, ofreciendo desde servicios básicos pero
+              totalmente necesarios, como son vacunaciones, desparacitaciones,
+              identificación, etc, a otros más complejos dentro de la patología
+              médica y quirúrgica. Las instalaciones de la veterinaria están
+              dotadas del equipamiento más completo en respuesta a las
+              necesidades de sus animalitos: consulta, sala de espera,
+              quirófano, sala de hospitalización, peluquería, etc.
+            </div>
+          </div>
+          <div
+            class="bg-white rounded-full sm:col-span-8 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full text-md"
+          >
+            <div align="center">
+              <img
+                class="p-5"
+                src="../../../assets/images/nuestraveterinaria.png"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--</app-card>-->
+  </div>
+  <div id="servicios" class="px-5 mt-3 nav-color">
+    <!--<app-card cardTitle="">-->
+    <div class="p-20 container m-auto">
+      <section class="text-gray-800">
+        <div class="flex justify-center">
+          <div class="text-center lg:max-w-3xl md:max-w-xl">
+            <h2 class="mb-12 px-6 subtitulos">Nuestras especialidades</h2>
+          </div>
+        </div>
+
+
+
+        <div
+          class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+        >
+          <a href="#">
+            <img
+              class="rounded-t-lg"
+              src="assets/images/consulta-servicio.png"
+              alt=""
+            />
+          </a>
+          <div class="p-5">
+              <h1
+                class="mb-2 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+              >
+                Consultas
+              </h1>
+           
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+              Estudio, diagnóstico y tratamiento de las enfermedades de nuestras
+              mascotas, sin tener que recurrir a la cirugía.
+            </p>
+           
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="grid grid-cols-8 gap-4 p-2 text-center">
+          <div
+            class="sm:col-span-8 md:col-span-8 lg:col-span-2 xl:col-span-2 col-span-full text-md"
+          >
+            <div class="flex justify-center">
+              <div align="center">
+                <img class="w-2/4" src="assets/images/consulta-servicio.png" />
+              </div>
+            </div>
+            <div class="font-bold mb-1">Consultas</div>
+            <div class="text-gray-500">
+              Estudio, diagnóstico y tratamiento de las enfermedades de nuestras
+              mascotas, sin tener que recurrir a la cirugía.
+            </div>
+          </div>
+          <div
+            class="sm:col-span-8 md:col-span-8 lg:col-span-2 xl:col-span-2 col-span-full text-md"
+          >
+            <div class="flex justify-center">
+              <div align="center">
+                <img
+                  class="w-2/4"
+                  src="assets/images/vacunacion-servicio.png"
+                />
+              </div>
+            </div>
+            <div class="font-bold mb-1">Vacunas</div>
+            <div class="text-gray-500">
+              Los veterinarios recomiendan un programa de vacunación adecuado
+              según la edad, y estilo de vida del animal para prevenir
+              enfermedades en animales domésticos.
+            </div>
+          </div>
+          <div
+            class="sm:col-span-8 md:col-span-8 lg:col-span-2 xl:col-span-2 col-span-full text-md"
+          >
+            <div class="flex justify-center">
+              <div align="center">
+                <img class="w-2/4" src="assets/images/cirugia-servicio.png" />
+              </div>
+            </div>
+            <div class="font-bold mb-1">Cirugías</div>
+            <div class="text-gray-500">
+              Cuando es imposible encontrar una solución médica, tratamos
+              enfermedades mediante una técnica quirúrgica.
+            </div>
+          </div>
+          <div
+            class="sm:col-span-8 md:col-span-8 lg:col-span-2 xl:col-span-2 col-span-full text-md"
+          >
+            <div class="flex justify-center">
+              <div align="center">
+                <img class="w-2/4" src="assets/images/asesoria-servicio.png" />
+              </div>
+            </div>
+            <div class="font-bold mb-1">Asesoría Preventiva</div>
+            <div class="text-gray-500">
+              La asesoría preventiva en veterinaria es crucial para mantener la
+              salud y bienestrar de las mascotas a largo plazo mediante
+              recomendaciones en nutrición, cuidado dental, ejercicio y
+              prevención de enfermedades.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!--</app-card>-->
+  </div>
+  <div id="contacto" class="px-5 mt-3 bg-coloresPer-texto">
+    <!--<app-card cardTitle="">-->
+    <div class="p-10 container m-auto">
+      <section class="text-gray-800">
+        <div class="flex justify-center">
+          <div class="text-center lg:max-w-3xl md:max-w-xl">
+            <h2 class="mb-12 px-6 subtitulos">Contáctenos</h2>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap">
+          <div
+            class="grow-0 shrink-0 basis-auto mb-12 lg:mb-0 w-full lg:w-5/12 px-3 lg:px-6"
+          >
+            <form>
+              <div class="form-group mb-6">
+                <input
+                  type="text"
+                  class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  id="exampleInput7"
+                  placeholder="Nombre"
+                />
+              </div>
+              <div class="form-group mb-6">
+                <input
+                  type="email"
+                  class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  id="exampleInput8"
+                  placeholder="Correo"
+                />
+              </div>
+              <div class="form-group mb-6">
+                <textarea
+                  class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                  id="exampleFormControlTextarea13"
+                  rows="3"
+                  placeholder="Mensaje"
+                ></textarea>
+              </div>
+              <div class="form-group form-check text-center mb-6"></div>
+              <button
+                type="submit"
+                class="w-full px-6 py-2.5 color-logo2 active:shadow-lg transition duration-150 ease-in-out"
+              >
+                Enviar
+              </button>
+            </form>
+          </div>
+          <div class="grow-0 shrink-0 basis-auto w-full lg:w-7/12">
+            <div class="flex flex-wrap">
+              <div
+                class="mb-12 grow-0 shrink-0 basis-auto w-full lg:w-6/12 px-3 lg:px-6"
+              >
+                <div class="flex items-start">
+                  <div class="shrink-0">
+                    <div
+                      class="p-4 bg-coloresPer-icon rounded-md shadow-md w-14 h-14 flex items-center justify-center"
+                    >
+                      <img
+                        class="w-6"
+                        src="assets/svg/address-book-solid.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                  <div class="grow ml-6">
+                    <p class="font-bold mb-1">Escríbenos</p>
+                    <p class="text-gray-500">vpethist@gmail.com</p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mb-12 grow-0 shrink-0 basis-auto w-full lg:w-6/12 px-3 lg:px-6"
+              >
+                <div class="flex items-start">
+                  <div class="shrink-0">
+                    <div
+                      class="p-4 bg-coloresPer-icon rounded-md shadow-md w-14 h-14 flex items-center justify-center"
+                    >
+                      <img
+                        class="w-6"
+                        src="assets/svg/phone-solid.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                  <div class="grow ml-6">
+                    <p class="font-bold mb-1">Llámanos</p>
+                    <p class="text-gray-500">Teléfono:(01)3511263</p>
+                    <p class="text-gray-500">Celular:987456369</p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mb-12 grow-0 shrink-0 basis-auto w-full lg:w-6/12 px-3 lg:px-6"
+              >
+                <div class="flex align-start">
+                  <div class="shrink-0">
+                    <div
+                      class="p-4 bg-coloresPer-icon rounded-md shadow-md w-14 h-14 flex items-center justify-center"
+                    >
+                      <img
+                        class="w-6"
+                        src="assets/svg/location-dot-solid.svg"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                  <div class="grow ml-6">
+                    <p class="font-bold mb-1">Dirección</p>
+                    <p class="text-gray-500">URB.SAN ANTONIO DE CARAPONGO</p>
+                    <p class="text-gray-500">MZ.F1 LTE 01-LURIGANCHO CHOSICA</p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mb-12 grow-0 shrink-0 basis-auto w-full lg:w-6/12 px-3 lg:px-6"
+              >
+                <div class="flex align-start">
+                  <div class="shrink-0"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- </app-card>-->
+  </div>
+  <footer class="bg-coloresPer-icon dark:bg-gray-900">
+    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-5">
+      <!-- <div class="sm:flex sm:items-center sm:justify-between">
+            <a href="https://flowbite.com/" class="flex items-center mb-4 sm:mb-0">
+                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+            </a>
+            <ul class="flex flex-wrap items-center mb-6 text-sm font-medium text-black sm:mb-0 dark:text-gray-400">
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Privacy Policy</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6 ">Licensing</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline">Contact</a>
+                </li>
+            </ul>
+        </div> -->
+      <!-- <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" /> -->
+      <span class="block text-sm text-white sm:text-center dark:text-gray-400"
+        >© 2023
+        <a
+          href="https://canvas.utp.edu.pe/login/canvas"
+          target="_blank"
+          class="hover:underline"
+          >Integrador</a
+        >. All Rights Reserved.</span
+      >
+    </div>
+  </footer>
+</body>

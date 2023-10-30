@@ -1,0 +1,51 @@
+<div>
+  <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-white"
+    >{{ inputTitle }} {{inputRequired?'*':''}}
+  </label>
+  <div class="relative mt-2">
+    <input
+      type="text"
+      [id]="inputId"
+      [value]="inputValor"
+      class="text-sm outline-none border-[1.2px] rounded-md block w-full p-2.5"
+      name="text"
+      placeholder="Seleccionar"
+      readonly
+    />
+    <button
+      type="button"
+      class="absolute inset-y-0 right-0 flex pr-3 mt-2"
+      (click)="hideDetail()"
+      (blur)="messageRequiredInput($event)"
+      *ngIf="!noEditable"
+    >
+    <img class="w-4" src="assets/svg/chevron-down-solid.svg" alt="" />
+    </button>
+    <ul
+      [class]="openDetalle ? 'absolute' : 'hidden'"
+      class="z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 sm:text-sm"
+      tabindex="-1"
+      role="listbox"
+      aria-labelledby="listbox-label"
+      aria-activedescendant="listbox-option-3"
+    >
+      <li
+        class="text-gray-900 relative cursor-default select-none py-2 pl-3 pr-9"
+        id="listbox-option-0"
+        *ngFor="let item of options; index as i"
+        (click)="select(item)"
+
+      >
+        <div class="flex">
+          <a
+            href="javascript:void(0);"
+            class="block px-4 py-2 dark:hover:text-white"
+            >{{ item.nombreMaestro }}</a
+          >
+        </div>
+      </li>
+    </ul>
+    <p *ngIf="inputRequired" class="pt-2 text-red-500 text-xs">{{messageRequired}}</p>
+  </div>
+</div>
+

@@ -1,0 +1,202 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import '@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+$color-one: #535c68;
+$color-two: #F8D0D2;
+$color-three: #EFF2F8;
+$color-four: #2b92e4;
+$font-size: 16px;
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: darkgray;
+}
+
+.contentCard{
+  /* height: 10rem; */
+  border-radius: 1rem;
+  // padding: 2rem;
+  box-shadow: 0px 3px 12px rgba(114, 124, 142, 0.196706);
+}
+.subtitulo{
+  color: $color-four;
+  font-size: 18px;
+  font-weight: bold;
+  align-self: center;
+}
+.buttonLogin{
+  background: $color-four;
+}
+
+.buttonFiltro {
+  background: $color-four;
+}
+
+.buttonFour{
+  border: 1px solid $color-four;
+  color: $color-four;
+}
+
+.buttonModalCancel{
+  border: 1px solid $color-four;
+  border-radius: 6px;
+  color: $color-four;
+}
+
+.buttonModalAceptar{
+  background: $color-four;
+  border: 1px solid $color-four;
+  border-radius: 6px;
+}
+
+.descripcion{
+  font-weight: 500;
+  line-height: 30px;
+  align-items: center;
+  text-align: center;
+  color: $color-one;
+}
+
+.textReg {
+  font-style: normal;
+  font-size: 13px;
+  line-height: 17px;
+  color: #868685;
+}
+
+
+/* CheckBox */
+
+.containerCheck input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  background: white;
+}
+
+.containerCheck {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  /* font-size: 20px; */
+  user-select: none;
+}
+
+.checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  /* height: 1.3em;
+  width: 1.3em; */
+  border-radius: 5px;
+  transition: all 0.5s;
+  border: 1px solid #00a1de;
+  background: white;
+}
+
+.containerCheck input:checked ~ .checkmark {
+  border: 1px solid #00a1de;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  filter: drop-shadow(0 0 10px #888);
+}
+
+.containerCheck input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.containerCheck .checkmark:after {
+  left: 0.5em;
+  top: 0em;
+  width: 0.4em;
+  height: 0.9em;
+  border: solid #00a1de;
+  border-width: 0 0.2em 0.2em 0;
+  transform: rotate(45deg);
+  animation: bounceFadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes bounceFadeIn {
+  from {
+    transform: translate(0, -10px) rotate(45deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(0, 0) rotate(45deg);
+    opacity: 1;
+  }
+}
+/* Fin CheckBox */
+
+.color-logo
+{
+  background-color: transparent;
+  border: 1px solid #7D7143;
+  color: #7D7143;
+  transition: all ease 0.6s;
+}
+.color-logo:hover
+{
+  background-color: #7D7143;
+  color: #FFFFFF;
+  transition: all ease 0.3s;
+}
+.color-logo:active
+{
+  opacity: 0.6;
+}
+.color-logo2
+{
+  background-color: #7D7143;
+  color: #FFFFFF;
+  transition: all ease 0.6s;
+}
+.color-logo2:hover
+{
+  background-color: #524b2c;
+  transition: all ease 0.3s;
+}
+.color-logo2:active
+{
+  opacity: 0.6;
+}

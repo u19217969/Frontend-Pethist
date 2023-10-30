@@ -1,0 +1,11 @@
+<div class="flex">
+  <label class="containerCheck w-6">
+    <input [checked]="check" type="checkbox" (change)="onCheckboxChange($event)">
+    <div [class]="size"
+    class="checkmark border-2"></div>
+  </label>
+  <a *ngIf="title!=''"
+  href="javascript:void(0);"
+  class="px-2 block dark:hover:text-white"
+  >{{title}}</a>
+</div>

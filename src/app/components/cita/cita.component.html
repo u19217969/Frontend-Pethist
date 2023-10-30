@@ -1,0 +1,149 @@
+<div
+  class="container lg:max-w-screen-2xl md:max-w-screen-2xl sm:max-w-screen-2xl px-5 mt-3"
+>
+  <app-card cardTitle="">
+    <div class="grid grid-cols-12 gap-4 m-auto">
+      <app-input-text
+        class="sm:col-span-12 md:col-span-12 lg:col-span-4 xl:col-span-5 col-span-full"
+        inputId="filtro"
+        inputTitle="Filtro"
+        inputPlaceHolder="Ingrese filtro"
+        inputType="text"
+        svgUrl="assets/svg/magnifying-glass-solid.svg"
+        (send)="formCitaFiltros.get('filtro')?.setValue($event)"
+      ></app-input-text>
+      <app-input-date
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputId="fechaCita"
+        inputTitle="Fecha cita"
+        (send)="formCitaFiltros.get('fechaCita')?.setValue($event)"
+      ></app-input-date>
+      <app-input-select
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputTitle="Cliente"
+        [options]="listaCliente"
+        (send)="
+        formCitaFiltros.get('idCliente')?.setValue($event.idMaestro)
+        "
+      ></app-input-select>
+      <app-input-select
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        inputTitle="Mascota"
+        [options]="listaMascota"
+        (send)="
+        formCitaFiltros.get('idMascota')?.setValue($event.idMaestro)
+        "
+      ></app-input-select>
+      <app-input-button-filter
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-1 col-span-full"
+        inputTitle="Aplicar"
+        (click)="listarCita(1)"
+      ></app-input-button-filter>
+    </div>
+  </app-card>
+  <div class="p-2">
+    <div class="grid grid-cols-10">
+      <p
+        style="margin-top: 30px"
+        class="sm:col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8 col-span-full subtitulo"
+      >
+        Registros de reservas
+      </p>
+      <app-input-button-add
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full p-1"
+        inputTitle="Nueva Reserva"
+        (click)="redireccionar('control/registrar-citas')"
+      ></app-input-button-add>
+      <div class="col-span-12">
+        <app-grid
+          [listaCabecera]="dataCabeceraMascota"
+          [listaDetalle]="dataDetalleCita"
+          [totalPage]="totalPages"
+          [currentPage]="currentPage"
+          [totalCount]="totalCount"
+          [numeroTotalPage]="numeroTotalPages"
+          (sendView)="verCita($event)"
+          (sendDelete)="confirmacionCita($event)"
+          (sendPagination)="listarCita($event)"
+          [editar]="false"
+        ></app-grid>
+      </div>
+    </div>
+  </div>
+  <app-modal
+    [visible]="modalCitaVisible"
+    [title]="
+      tipoModal === 4
+        ? 'Ver Cita'
+        : tipoModal === 2
+        ? 'Editar Cita'
+        : 'Nueva Cita'
+    "
+    (close)="modalCitaVisible = false"
+    size="w-3/4"
+  >
+    <div class="grid grid-cols-12 gap-4 m-auto">
+      <app-input-select
+        inputId="doctor"
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        [inputValor]="citaMantenimiento.nombreDoctor!"
+        inputTitle="Doctor"
+        [options]="listaDoctor"
+        [noEditable]="tipoModal===4?true:false"
+      ></app-input-select>
+      <app-input-select
+        inputId="doctor"
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        [inputValor]="citaMantenimiento.nombreMascota!"
+        inputTitle="Mascota"
+        [options]="listaMascota"
+        [noEditable]="tipoModal===4?true:false"
+      ></app-input-select>
+      <app-input-date
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        inputId="fechaCita"
+        inputTitle="Fecha Cita"
+        [noEditable]="tipoModal===4?true:false"
+        [inputValor]="citaMantenimiento.fechaCita!"
+      ></app-input-date>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        inputId="horaCita"
+        inputTitle="Hora cita"
+        [inputValor]="citaMantenimiento.horaCita!"
+        [disableInput]="tipoModal===4?true:false"
+        inputPlaceHolder="Ingrese nro documento"
+        inputType="text"
+      ></app-input-text>
+      <app-input-text
+        class="sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 col-span-full"
+        inputId="motivo"
+        inputTitle="Motivo"
+        [disableInput]="tipoModal===4?true:false"
+        [inputValor]="citaMantenimiento.motivo!"
+        inputPlaceHolder="Ingrese nombre completo"
+        inputType="text"
+      ></app-input-text>
+    </div>
+    <div class="flex justify-center mt-5" *ngIf="tipoModal != 4">
+      <div class="w-1/4">
+        <app-input-button-modal
+          type="white"
+          typeColorText="blue-400"
+          inputTitle="Cancelar"
+          (click)="modalCitaVisible = false"
+        ></app-input-button-modal>
+      </div>
+    </div>
+  </app-modal>
+  <app-modal-actions
+    [visible]="modalAccionesVisible"
+    title=""
+    [svgUrl]="svg"
+    [descripcion]="mensaje"
+    (close)="eliminarCita($event)"
+    [redireccionar]="redireccionarMascota"
+    [confirmacion]="confirmacion"
+    size="w-96"
+  ></app-modal-actions>
+</div>

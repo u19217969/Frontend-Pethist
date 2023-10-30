@@ -1,0 +1,144 @@
+<div class="h-screen flex">
+  <div
+    class="hidden lg:flex w-full lg:w-1/2 registrar_img_section justify-around items-center"
+  >
+    <div class="bg-black opacity-20 inset-0 z-0"></div>
+  </div>
+  <div
+    class="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8"
+  >
+    <div class="w-full px-8 md:px-32 lg:px-24">
+      <app-card cardTitle="Registrar Usuario">
+        <p class="mb-4 text-sm text-gray-700">
+          Completar formulario de datos personales
+        </p>
+        <div class="grid grid-cols-12 gap-4 m-auto">
+          <app-input-select
+            inputId="tipoDocumento"
+            class="sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6 col-span-full"
+            inputTitle="Tipo documento"
+            [options]="listaTipoDocumento"
+            (send)="changeTipoDocumento($event)"
+            [inputRequired]="
+              formMantenimientoUsuario
+                .get('idTipoDocumento')!
+                .hasError('required')
+            "
+            inputMessageRequired="Por favor, ingrese el tipo de documento."
+          ></app-input-select>
+          <app-input-text
+            class="sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6 col-span-full"
+            inputId="nroDocumento"
+            inputTitle="Nro Documento"
+            inputPlaceHolder="Ingrese nro documento"
+            inputType="text"
+            (send)="
+              formMantenimientoUsuario.get('nroDocumento')?.setValue($event)
+            "
+            [inputRequired]="
+              formMantenimientoUsuario.get('nroDocumento')!.hasError('required')
+            "
+            inputMessageRequired="Por favor, ingrese su número de documento"
+            [disableInput]="flNroDocumento"
+            [inputMaxLength]="lengthNroDocumento"
+            [inputMinLength]="lengthNroDocumento"
+            [numericOnly]="true"
+          ></app-input-text>
+          <app-input-text
+            class="sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 col-span-full"
+            inputId="nombreCompleto"
+            inputTitle="Nombres completos"
+            inputPlaceHolder="Ingrese los nombres completos"
+            inputType="text"
+            (send)="
+              formMantenimientoUsuario.get('nombreUsuario')?.setValue($event)
+            "
+            [inputRequired]="
+              formMantenimientoUsuario
+                .get('nombreUsuario')!
+                .hasError('required')
+            "
+            inputMessageRequired="Por favor, ingrese su nombre completo."
+            [inputMinLength]="5"
+            [inputMaxLength]="255"
+            
+          ></app-input-text>
+          <!-- <app-input-text
+            class="sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6 col-span-full"
+            inputId="login"
+            inputTitle="Login"
+            inputPlaceHolder="Ingrese el login"
+            inputType="text"
+            (send)="formMantenimientoUsuario.get('login')?.setValue($event)"
+            [inputRequired]="formMantenimientoUsuario.get('login')!.hasError('required')"
+            inputMessageRequired="Por favor, ingrese su login."
+          ></app-input-text> -->
+          <app-input-text
+            class="sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6 col-span-full"
+            inputId="clave"
+            inputTitle="Contraseña"
+            inputPlaceHolder="Ingresa contraseña"
+            inputType="password"
+            (send)="formMantenimientoUsuario.get('clave')?.setValue($event)"
+            [inputRequired]="
+              formMantenimientoUsuario.get('clave')!.hasError('required')
+            "
+            inputMessageRequired="Por favor, ingrese su contraseña."
+            svgUrlAccion="assets/svg/eye-solid.svg"
+            [inputMinLength]="8"
+            [inputMaxLength]="25"
+          ></app-input-text>
+          <app-input-text
+            class="sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6 col-span-full"
+            inputId="correo"
+            inputTitle="Correo"
+            inputPlaceHolder="Ingrese el correo"
+            inputType="text"
+            (send)="formMantenimientoUsuario.get('correo')?.setValue($event)"
+            [inputRequired]="
+              formMantenimientoUsuario.get('correo')!.hasError('required')
+            "
+            inputMessageRequired="Por favor, ingrese su dirección de correo electrónico."
+            [inputMinLength]="5"
+            [inputMaxLength]="50"
+          ></app-input-text>
+        </div>
+
+        <app-input-button
+          *ngIf="!formMantenimientoUsuario.valid"
+          inputTitle="Registrar"
+          svgUrl="assets/svg/arrow-right-solid.svg"
+        ></app-input-button>
+        <app-input-button
+          *ngIf="formMantenimientoUsuario.valid"
+          inputTitle="Registrar"
+          svgUrl="assets/svg/arrow-right-solid.svg"
+          (click)="agregarUsuario()"
+        ></app-input-button>
+        <div class="flex justify-between mt-4">
+          <span
+            class="text-sm ml-2 text-coloresPer-icon cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+            (click)="redireccionar('recover-password')"
+            >¿Has olvidado tu contraseña?</span
+          >
+          <a
+            href="javascript:void(0);"
+            (click)="redireccionar('login')"
+            class="text-sm ml-2 text-coloresPer-icon cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+            >¿Ya tienes una cuenta? ¡Ingresa!</a
+          >
+        </div>
+      </app-card>
+    </div>
+  </div>
+  <app-modal-actions
+    [visible]="modalAccionesVisible"
+    title=""
+    [svgUrl]="svg"
+    [descripcion]="mensaje"
+    (close)="modalAccionesVisible = false"
+    [redireccionar]="routerLink"
+    [confirmacion]="confirmacion"
+    size="w-96"
+  ></app-modal-actions>
+</div>
