@@ -1,5 +1,6 @@
 export interface Cita {
 }
+//Lista completa
 export interface CitaRequest {
   idCita?: number;
   idDoctor?: number;
@@ -14,6 +15,7 @@ export interface CitaRequest {
   modificaUsuario?: string;
   flag?: number;
 }
+//Solicitud de filtro de cita
 export interface CitaListRequest {
   numeroPagina?: number;
   numeroRegistros?: number;
@@ -22,6 +24,7 @@ export interface CitaListRequest {
   idMascota?: number;
   filtro?: string;
 }
+//Respuesta del filtro
 export interface CitaListResponse {
   idCita?: number;
   fechaSolicitud?: Date;
