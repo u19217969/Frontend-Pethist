@@ -1,10 +1,8 @@
-<div
-  class="container lg:max-w-screen-2xl md:max-w-screen-2xl sm:max-w-screen-2xl px-5 mt-3"
->
+<div class="w-full px-12 py-9">
   <app-card cardTitle="">
     <div class="grid grid-cols-12 gap-4 m-auto">
       <app-input-text
-        class="sm:col-span-12 md:col-span-12 lg:col-span-4 xl:col-span-5 col-span-full"
+        class="sm:col-span-12 md:col-span-12 lg:col-span-4 xl:col-span-4 col-span-full"
         inputId="filtro"
         inputTitle="Filtro"
         inputPlaceHolder="Ingrese filtro"
@@ -19,20 +17,16 @@
         (send)="formCitaFiltros.get('fechaCita')?.setValue($event)"
       ></app-input-date>
       <app-input-select
-        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
+        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-3 col-span-full"
         inputTitle="Cliente"
         [options]="listaCliente"
-        (send)="
-        formCitaFiltros.get('idCliente')?.setValue($event.idMaestro)
-        "
+        (send)="formCitaFiltros.get('idCliente')?.setValue($event.idMaestro)"
       ></app-input-select>
       <app-input-select
         class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
         inputTitle="Mascota"
         [options]="listaMascota"
-        (send)="
-        formCitaFiltros.get('idMascota')?.setValue($event.idMaestro)
-        "
+        (send)="formCitaFiltros.get('idMascota')?.setValue($event.idMaestro)"
       ></app-input-select>
       <app-input-button-filter
         class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-1 col-span-full"
@@ -82,50 +76,49 @@
     (close)="modalCitaVisible = false"
     size="w-3/4"
   >
-    <div class="grid grid-cols-12 gap-4 m-auto">
+  <!--se cambio gird-cols-12 a 2 para que se forme 2 columnas 3 filas--->
+  <!-- class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"-->
+    <div class="grid grid-cols-2 gap-4 m-auto">
       <app-input-select
         inputId="doctor"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         [inputValor]="citaMantenimiento.nombreDoctor!"
         inputTitle="Doctor"
         [options]="listaDoctor"
-        [noEditable]="tipoModal===4?true:false"
+        [noEditable]="tipoModal === 4 ? true : false"
       ></app-input-select>
       <app-input-select
         inputId="doctor"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         [inputValor]="citaMantenimiento.nombreMascota!"
         inputTitle="Mascota"
         [options]="listaMascota"
-        [noEditable]="tipoModal===4?true:false"
+        [noEditable]="tipoModal === 4 ? true : false"
       ></app-input-select>
       <app-input-date
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="fechaCita"
         inputTitle="Fecha Cita"
-        [noEditable]="tipoModal===4?true:false"
+        [noEditable]="tipoModal === 4 ? true : false"
         [inputValor]="citaMantenimiento.fechaCita!"
       ></app-input-date>
       <app-input-text
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="horaCita"
         inputTitle="Hora cita"
         [inputValor]="citaMantenimiento.horaCita!"
-        [disableInput]="tipoModal===4?true:false"
+        [disableInput]="tipoModal === 4 ? true : false"
         inputPlaceHolder="Ingrese nro documento"
         inputType="text"
       ></app-input-text>
+<!--class="col-span-2" se agrego esto para que ese input se adecue el largo con las 2 columnas-->
       <app-input-text
-        class="sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 col-span-full"
+        class="col-span-2"
         inputId="motivo"
         inputTitle="Motivo"
-        [disableInput]="tipoModal===4?true:false"
+        [disableInput]="tipoModal === 4 ? true : false"
         [inputValor]="citaMantenimiento.motivo!"
         inputPlaceHolder="Ingrese nombre completo"
         inputType="text"
       ></app-input-text>
     </div>
-    <div class="flex justify-center mt-5" *ngIf="tipoModal != 4">
+    <div class="flex justify-center mt-5" *ngIf="tipoModal !== 4">
       <div class="w-1/4">
         <app-input-button-modal
           type="white"

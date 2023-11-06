@@ -32,7 +32,7 @@
 $color-one: #535c68;
 $color-two: #F8D0D2;
 $color-three: #EFF2F8;
-$color-four: #2b92e4;
+$color-four: #7D7143;
 $font-size: 16px;
 
 ::-webkit-scrollbar {
@@ -91,10 +91,11 @@ $font-size: 16px;
 }
 
 .textReg {
-  font-style: normal;
+ // font-style: normal;
   font-size: 13px;
   line-height: 17px;
-  color: #868685;
+  color: #645a2e;
+  font-weight: 800 !important;
 }
 
 
@@ -199,4 +200,8 @@ $font-size: 16px;
 .color-logo2:active
 {
   opacity: 0.6;
+}
+[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
+  --tw-ring-color: #7D7143;
+   border-color: #7D7143;
 }

@@ -23,11 +23,11 @@
               *ngFor="let item of listaCabecera"
               [class]="item.visible ? '' : 'hidden'"
             >
-              <div class="px-6 py-4">
-                <div *ngIf="item.tipo == 'text'">
+              <div class="px-5 py-4">
+                <div *ngIf="item.tipo === 'text'">
                   <span>{{ getvaluekey(reg, item.campo) }}</span>
                 </div>
-                <div *ngIf="item.tipo == 'boolean'">
+                <div *ngIf="item.tipo === 'boolean'">
                   <div
                     *ngIf="getvaluekey(reg, item.campo)"
                     class="center relative inline-block select-none whitespace-nowrap rounded-lg bg-[#2b92e4] py-2 px-3.5 align-baseline text-xs leading-none text-white"
@@ -41,12 +41,12 @@
                     <span class="mt-px">Inactivo</span>
                   </div>
                 </div>
-                <div *ngIf="item.tipo == 'date'">
+                <div *ngIf="item.tipo === 'date'">
                   <span>{{
                     getvaluekey(reg, item.campo) | date : "dd/MM/yyyy"
                   }}</span>
                 </div>
-                <div class="flex items-center" *ngIf="item.tipo == 'button'">
+                <div class="flex items-center" *ngIf="item.tipo === 'button'">
                   <img
                     (click)="verRegistro(reg)"
                     class="w-5"
@@ -75,9 +75,7 @@
                 </div>
               </div>
             </td>
-            <td class="px-6 py-4">
-              <div class="grid grid-cols-3"></div>
-            </td>
+           
           </tr>
         </tbody>
       </table>
@@ -90,8 +88,8 @@
         class="w-full flex items-center justify-between border-t border-gray-200"
       >
         <div
-          [class]="(currentPage == 1) ? 'invisible' : 'visible'"
-          class="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer"
+          [class]="(currentPage === 1) ? 'invisible' : 'visible'"
+          class="flex items-center pt-3 text-gray-600 hover:text-coloresPer-icon cursor-pointer"
           (click)="siguientePaginado(currentPage - 1)"
         >
           <img class="w-2" src="assets/svg/chevron-left-solid.svg" alt="" />
@@ -101,9 +99,9 @@
           <p
             *ngFor="let item of totalPage"
             [class]="
-              currentPage == item
-                ? 'text-indigo-700 border-t border-indigo-400 pt-3 mr-4 px-2'
-                : 'text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2'
+              currentPage === item
+                ? 'text-coloresPer-navcontainter border-t border-coloresPer-icon pt-3 mr-4 px-2'
+                : 'text-coloresPer-navcontainter hover:text-indigo-700 border-t border-transparent hover:border-coloresPer-icon pt-3 mr-4 px-2'
             "
             class="text-sm font-medium leading-none cursor-pointer"
             (click)="siguientePaginado(item)"
@@ -112,8 +110,8 @@
           </p>
         </div>
         <div
-          [class]="currentPage == numeroTotalPage ? 'invisible' : 'visible'"
-          class="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer"
+          [class]="currentPage === numeroTotalPage ? 'invisible' : 'visible'"
+          class="flex items-center pt-3 text-gray-600 hover:text-coloresPer-icon cursor-pointer"
           (click)="siguientePaginado(currentPage + 1)"
         >
           <p class="text-sm font-medium leading-none mr-3 pt-3">Siguiente</p>

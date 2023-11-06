@@ -10,6 +10,8 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { RegistrarCitaComponent } from './registrar-cita/registrar-cita.component';
 import { NotificacionComponent } from './notificacion/notificacion.component';
 
+
+
 const routes: Routes = [
   {
     path: '',

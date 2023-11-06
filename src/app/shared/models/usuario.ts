@@ -3,7 +3,7 @@ export interface UsuarioRequest {
   idTipoDocumento?: number;
   idTipoUsuario?: number;
   nombreUsuario?: string;
-  login?: string;
+  //login?: string;
   nroDocumento?: string;
   clave?: string;
   correo?: number;
@@ -27,7 +27,7 @@ export interface UsuarioListResponse{
   idTipoUsuario?: number;
   nombreTipoUsuario?: string;
   nombreUsuario?: string;
-  login?: string;
+ // login?: string;
   nroDocumento?: string;
   correo?: string;
   clave?:string;

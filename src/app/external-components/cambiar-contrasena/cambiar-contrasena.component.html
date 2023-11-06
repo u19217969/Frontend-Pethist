@@ -1,0 +1,40 @@
+<div class="h-screen flex">
+  <div
+    class="hidden lg:flex w-full lg:w-1/2 cambiarclave_img_section justify-around items-center"
+  >
+    <div class="bg-black opacity-20 inset-0 z-0"></div>
+  </div>
+  <div
+  class="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8"
+>
+  <div class="w-full px-8 md:px-32 lg:px-24">
+    <app-card cardTitle="Cambiar Contraseña">
+      <div class="grid grid-cols-12 gap-4 m-auto">
+        <app-input-text
+          class="sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 col-span-full"
+          inputId="clave"
+          inputTitle="Contraseña"
+          inputPlaceHolder="Ingrese su nueva contraseña"
+          inputType="password"
+          inputMessageRequired="Por favor, ingrese su contraseña."
+          svgUrlAccion="assets/svg/eye-solid.svg"
+          [inputMinLength]="8"
+          [inputMaxLength]="25"
+        ></app-input-text>
+      </div>
+      <app-input-button
+      inputTitle="Actualizar"
+      svgUrl="assets/svg/rotate-right-solid.svg"
+    ></app-input-button>
+    <div class="flex justify-between mt-4">
+      <a
+            href="javascript:void(0);"
+            (click)="redireccionar('login')"
+            class="text-sm ml-2 text-coloresPer-icon cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+            >Puede regresar al Login</a
+          >
+    </div>
+    </app-card>
+  </div>
+</div>
+</div>

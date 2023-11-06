@@ -1,5 +1,5 @@
 <div
-  class="container lg:max-w-screen-2xl md:max-w-screen-2xl sm:max-w-screen-2xl px-5 mt-3"
+  class="w-full px-12 py-9"
 >
   <app-card cardTitle="">
     <div class="grid grid-cols-10 gap-4 m-auto">
@@ -78,6 +78,7 @@
   </div>
 
   <app-modal
+
     [visible]="modalUsuarioVisible"
     [title]="
       tipoModal === 4
@@ -88,14 +89,16 @@
     "
     (close)="modalUsuarioVisible = false"
     size="w-3/4"
+    colormodal="white"
   >
-    <div class="grid grid-cols-12 gap-4 m-auto">
+    <div class="grid grid-cols-3 gap-4 m-auto">
       <app-input-select
         inputId="tipoDocumentoModal"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
         [inputValor]="usuarioMantenimiento.nombreTipoDocumento!"
         inputTitle="Tipo Documento"
         [options]="listaTipoDocumento"
+        [noEditable]="true"
+
         (send)="
           formMantenimientoUsuario
             .get('idTipoDocumento')
@@ -103,30 +106,20 @@
         "
       ></app-input-select>
       <app-input-text
-        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
         inputId="nroDocumentoModal"
         inputTitle="Nro documento"
         [inputValor]="this.formMantenimientoUsuario.get('nroDocumento')!.value"
         inputPlaceHolder="Ingrese nro documento"
         inputType="text"
+        [disableInput]="true"
         (send)="formMantenimientoUsuario.get('nroDocumento')?.setValue($event)"
       ></app-input-text>
-      <app-input-text
-        class="sm:col-span-12 md:col-span-6 lg:col-span-8 xl:col-span-8 col-span-full"
-        inputId="nombre"
-        inputTitle="Nombre completo"
-        [inputValor]="this.formMantenimientoUsuario.get('nombreUsuario')!.value"
-        inputPlaceHolder="Ingrese nombre completo"
-        inputType="text"
-        (send)="formMantenimientoUsuario.get('nombreUsuario')?.setValue($event)"
-      ></app-input-text>
-
       <app-input-select
         inputId="tipoUsuarioModal"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         [inputValor]="usuarioMantenimiento.nombreTipoUsuario!"
         inputTitle="Tipo usuario"
         [options]="listaTipoUsuario"
+        [noEditable]="tipoModal===4?true:false"
         (send)="
           formMantenimientoUsuario
             .get('idTipoUsuario')
@@ -134,6 +127,18 @@
         "
       ></app-input-select>
       <app-input-text
+        class="col-span-3"
+        inputId="nombre"
+        inputTitle="Nombre completo"
+        [inputValor]="this.formMantenimientoUsuario.get('nombreUsuario')!.value"
+        inputPlaceHolder="Ingrese nombre completo"
+        inputType="text"
+        [disableInput]="tipoModal===4?true:false"
+        (send)="formMantenimientoUsuario.get('nombreUsuario')?.setValue($event)"
+      ></app-input-text>
+
+
+      <!-- <app-input-text
         class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="login"
         inputTitle="Login"
@@ -150,7 +155,7 @@
         inputPlaceHolder="Ingrese clave"
         inputType="password"
         (send)="formMantenimientoUsuario.get('clave')?.setValue($event)"
-      ></app-input-text>
+      ></app-input-text> -->
       <app-input-text
         class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="correo"
@@ -158,6 +163,7 @@
         [inputValor]="this.formMantenimientoUsuario.get('correo')!.value"
         inputPlaceHolder="Ingrese correo"
         inputType="text"
+        [disableInput]="true"
         (send)="formMantenimientoUsuario.get('correo')?.setValue($event)"
       ></app-input-text>
     </div>
@@ -201,15 +207,18 @@
     [visible]="modalAccesoVisible"
     (close)="modalAccesoVisible = false"
     size="w-3/4"
+    colormodal="#FFFDEF"
   >
-    <section class="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
-      <div class="container shadow-lg h-full">
+    <section class="gradient-form h-full  dark:bg-neutral-700">
+      <!--<div class="container h-full: se elimino el codigo shadow-lg para borrar el card blanco">-->
+      <div class="container h-full">
         <div
           class="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200"
         >
           <div class="w-full">
+            <!--class="block rounded-lg dark:bg-neutral-800 se elimino el codigo shadow-lg para borrar el card blanco"--->
             <div
-              class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800"
+              class="block rounded-lg dark:bg-neutral-800"
             >
               <div class="g-0 lg:flex lg:flex-wrap">
                 <div class="px-4 md:px-0 lg:w-6/12">
@@ -217,10 +226,10 @@
                     <p
                       class="sm:col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8 col-span-full subtitulo"
                     >
-                      Menu
+                      Menú
                     </p>
                     <div
-                      class="bg-white rounded-lg flex items-center justify-between space-x-8"
+                      class=" rounded-lg flex items-center justify-between space-x-8"
                       *ngFor="let item of listMenuAcceso"
                     >
                       <div class="flex-1 flex justify-between items-center">
@@ -258,10 +267,10 @@
                     <p
                       class="sm:col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8 col-span-full subtitulo"
                     >
-                      Sub-menu
+                      Sub-menú
                     </p>
                     <div
-                      class="bg-white rounded-lg space-x-8"
+                      class=" rounded-lg space-x-8"
                       *ngFor="let itemHijo of seleccionMenuHijo"
                     >
                       <div class="flex-1 flex justify-between items-center">

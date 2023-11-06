@@ -4,14 +4,14 @@
   </mat-drawer>
 
   <mat-drawer-content style="margin-left: 0px !important">
-    <nav class="bg-gray-800">
+    <nav class="bg-coloresPer-icon">
       <div class="mx-auto">
         <div class="relative flex h-16 items-center justify-between">
           <div class="flex flex-1 items-center sm:justify-start">
             <button
               (click)="drawer.toggle()"
               type="button"
-              class="inline-flex items-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              class="ml-5 inline-flex items-center rounded-md p-2 text-gray-50 hover:bg-coloresPer-navcontainter hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               aria-expanded="false"
             >
               <span class="sr-only">Open main menu</span>
@@ -51,12 +51,12 @@
             </div>
           </div>
           <div
-            class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6"
+            class="mr-5 absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6"
           >
             <button
               (click)="openUserNotification()"
               type="button"
-              class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              class="rounded-full bg-coloresPer-navcontainter p-1 text-white hover:text-white"
             >
               <span class="sr-only">Ver notificaciones</span>
               <svg
@@ -75,7 +75,7 @@
                 />
               </svg>
             </button>
-            <div>
+            <div class="mt-6">
               <div
                 [class]="openNotification ? 'absolute' : 'hidden'"
                 class="overflow-auto right-14 z-10 mt-2 w-96 h-72 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"

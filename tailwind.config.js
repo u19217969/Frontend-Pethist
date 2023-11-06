@@ -7,7 +7,8 @@ module.exports = {
     colors: {
       coloresPer: {
         texto: '#fdf8db',
-        icon: '#7D7143'
+        icon: '#7D7143',
+        navcontainter:'#524b2c'
     },
 
     },

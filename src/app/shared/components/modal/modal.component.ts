@@ -6,12 +6,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent  implements OnInit {
-
+  @Input() colormodal: string = 'white';
   @Input() visible: boolean = false;
   @Input() closeIconVisible: boolean = true;
   @Input() size: string = '';
   @Input() title: string = '';
   @Output() close = new EventEmitter();
+
 
   constructor() { }
 
