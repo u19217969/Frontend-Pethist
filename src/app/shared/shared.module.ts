@@ -15,6 +15,8 @@ import { ModalActionsComponent } from './components/modal-actions/modal-actions.
 import { InputCheckComponent } from './components/input-check/input-check.component';
 import { OnlyNumberDirective } from './directives/only-number/only-number.directive';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { OnlyTextDirective } from './directives/only-text/only-text.directive';
+import { OnlyEmailDirective } from './directives/only-email/only-email.directive';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { CarouselComponent } from './components/carousel/carousel.component';
     ModalActionsComponent,
     InputCheckComponent,
     CarouselComponent,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    OnlyTextDirective,
+    OnlyEmailDirective
   ],
   imports: [
     CommonModule,
