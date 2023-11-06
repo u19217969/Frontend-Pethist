@@ -17,7 +17,7 @@ import { OnlyNumberDirective } from './directives/only-number/only-number.direct
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { OnlyTextDirective } from './directives/only-text/only-text.directive';
 import { OnlyEmailDirective } from './directives/only-email/only-email.directive';
-
+//shared.module.ts
 @NgModule({
   declarations: [
     InputTextComponent,
