@@ -31,7 +31,7 @@
             inputId="nroDocumento"
             inputTitle="Nro Documento"
             inputPlaceHolder="Ingrese nro documento"
-            inputType="text"
+            inputType="text" 
             (send)="
               formMantenimientoUsuario.get('nroDocumento')?.setValue($event)
             "
@@ -43,6 +43,7 @@
             [inputMaxLength]="lengthNroDocumento"
             [inputMinLength]="lengthNroDocumento"
             [numericOnly]="true"
+            [disableInput]="true"
           ></app-input-text>
           <app-input-text
             class="sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 col-span-full"
@@ -61,6 +62,7 @@
             inputMessageRequired="Por favor, ingrese su nombre completo."
             [inputMinLength]="5"
             [inputMaxLength]="255"
+            [textOnly]="true"
             
           ></app-input-text>
           <!-- <app-input-text

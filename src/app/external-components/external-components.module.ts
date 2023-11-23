@@ -10,14 +10,16 @@ import { CoreModule } from '../core/core.module';
 import { HttpClient } from '@angular/common/http';
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 import { RegistrarUsuarioComponent } from './registrar-usuario/registrar-usuario.component';
+import { CambiarContrasenaComponent } from './cambiar-contrasena/cambiar-contrasena.component';
 // import { SpinnerComponent } from './spinner/spinner.component';
 @NgModule({
   declarations: [
     LoginComponent,
     HomeComponent,
     RecoverPasswordComponent,
-    RegistrarUsuarioComponent
+    RegistrarUsuarioComponent,
     // SpinnerComponent
+    CambiarContrasenaComponent
   ],
   imports: [
     CommonModule,

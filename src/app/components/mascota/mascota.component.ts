@@ -39,16 +39,11 @@ export class MascotaComponent implements OnInit {
     { titulo: 'Genero', campo: 'nombreGenero', tipo: 'text', visible: true },
     { titulo: 'Tipo', campo: 'nombreTipo', tipo: 'text', visible: true },
     { titulo: 'Nombre', campo: 'nombreMascota', tipo: 'text', visible: true },
-    {
-      titulo: 'Fecha Nacimiento',
-      campo: 'fechaNacimiento',
-      tipo: 'date',
-      visible: true,
-    },
+    {titulo: 'Fecha Nacimiento',campo: 'fechaNacimiento', tipo: 'date',visible: true },
     { titulo: 'Color', campo: 'colorMascota', tipo: 'text', visible: true },
     { titulo: 'Dueño', campo: 'nombreUsuario', tipo: 'text', visible: true },
-    { titulo: 'Estado', campo: 'estado', tipo: 'boolean', visible: true },
-    { titulo: 'Acciones', campo: '', tipo: 'button', visible: true },
+    { titulo: 'Estado', campo: 'estado', tipo: 'int', visible: true },
+    { titulo: 'Acciones', campo: 'estado', tipo: 'button', visible: true },
   ];
   dataDetalleMascota: Array<any> = [];
 
@@ -67,6 +62,8 @@ export class MascotaComponent implements OnInit {
   svg: string = '';
   confirmacion: boolean = false;
   tipoModal: number = 1;
+
+  permisos:any;
 
   private mascotaSubscription: Subscription = new Subscription();
   constructor(
@@ -98,7 +95,7 @@ export class MascotaComponent implements OnInit {
       fechaNacimiento: [{ value: '', disabled: false }, [Validators.required]],
       colorMascota: [{ value: '', disabled: false }, [Validators.required]],
       idUsuario: [{ value: 0, disabled: false }],
-      estado: [{ value: 0, disabled: false }],
+      estado: [{ value: 4, disabled: false }],
       creaUsuario: [{ value: '', disabled: false }],
       modificaUsuario: [{ value: '', disabled: false }],
       flag: [{ value: 0, disabled: false }],
@@ -156,6 +153,8 @@ export class MascotaComponent implements OnInit {
 
   validarTipoUsuario() {
     this.datosUsuario = this.authorizesService.obtenerUsuarioAutentificacion();
+    const permisoPagina = JSON.parse(this.authorizesService.obtenerMenu());
+    this.permisos = permisoPagina[2].usuarioAccesoHijo[0];
     const id = ParametroMaestro.validarAdministrador;
     this.mascotaSubscription = this.maestroService
       .listarMaestro(id)
@@ -252,7 +251,7 @@ export class MascotaComponent implements OnInit {
   }
 
   listarMascota(numeroPagina: number) {
-    console.log(this.flAdmin);
+  //  console.log(this.flAdmin);
     let idCliente;
     if (this.formMascotaFiltros.value.cliente == 0 && this.flAdmin) {
       idCliente = 0;
@@ -275,6 +274,7 @@ export class MascotaComponent implements OnInit {
       .listarMascota(body)
       .pipe(
         tap((response) => {
+         // console.log(response)
           // Código que se ejecuta cuando se recibe la respuesta del servicio
           if (response.records) {
             this.dataDetalleMascota = response.dataListModel;
@@ -323,7 +323,7 @@ export class MascotaComponent implements OnInit {
       idUsuario: this.flAdmin
         ? this.formMantenimientoMascota.get('idUsuario')!.value
         : this.datosUsuario.idUsuario,
-      estado: true,
+      estado: 4,
       creaUsuario: this.datosUsuario.login,
       modificaUsuario: this.datosUsuario.login,
       flag: this.tipoModal,
@@ -411,44 +411,9 @@ export class MascotaComponent implements OnInit {
       idUsuario: 0,
       nombreUsuario: 'Seleccionar',
       colorMascota: '',
-      estado: false,
+      //estado: 4,
     };
-    // const inputListaGenero = document.getElementById(
-    //   'listaGenero'
-    // ) as HTMLInputElement;
-    // if (inputListaGenero) {
-    //   inputListaGenero.value = 'Seleccionar';
-    // }
-    // const inputListaTipo = document.getElementById(
-    //   'listaTipo'
-    // ) as HTMLInputElement;
-    // if (inputListaTipo) {
-    //   inputListaTipo.value = 'Seleccionar';
-    // }
-    // const inputListaCliente = document.getElementById(
-    //   'listaCliente'
-    // ) as HTMLInputElement;
-    // if (inputListaCliente) {
-    //   inputListaCliente.value = 'Seleccionar';
-    // }
-    // const inputNombre = document.getElementById(
-    //   'nombreMascota'
-    // ) as HTMLInputElement;
-    // if (inputNombre) {
-    //   inputNombre.value = '';
-    // }
-    // const inputFechaNacimiento = document.getElementById(
-    //   'fechaNacimiento'
-    // ) as HTMLInputElement;
-    // if (inputFechaNacimiento) {
-    //   inputFechaNacimiento.value = '';
-    // }
-    // const inputColor = document.getElementById(
-    //   'colorMascota'
-    // ) as HTMLInputElement;
-    // if (inputColor) {
-    //   inputColor.value = '';
-    // }
+ 
     this.formMantenimientoMascota.reset();
     this.formMantenimientoMascota.markAsUntouched();
   }

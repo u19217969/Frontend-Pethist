@@ -1,8 +1,9 @@
 <section
-  [class]="colorFondo!=''?colorFondo:'p-8'"
+  [class]="colorFondo!==''?colorFondo:'p-8'"
+  [ngStyle]="colorFondo==='' ? {}:{'background-color': colorFondo} "
 class="contentCard">
   <div class="p-1">
-    <div class="grid grid-cols-10" style="margin-bottom: 1rem;" *ngIf="cardTitle!=''">
+    <div class="grid grid-cols-10" style="margin-bottom: 1rem;" *ngIf="cardTitle!==''">
         <p class="col-span-8 subtitulo">{{cardTitle}}</p>
     </div>
     <div class="">

@@ -23,24 +23,50 @@
               *ngFor="let item of listaCabecera"
               [class]="item.visible ? '' : 'hidden'"
             >
-              <div class="px-6 py-4">
-                <div *ngIf="item.tipo == 'text'">
+              <div class="px-5 py-4">
+                <div *ngIf="item.tipo === 'text'">
                   <span>{{ getvaluekey(reg, item.campo) }}</span>
                 </div>
-                <div *ngIf="item.tipo == 'boolean'">
+                <div *ngIf="item.tipo === 'int'">
                   <div
-                    *ngIf="getvaluekey(reg, item.campo)"
+                    *ngIf="getvaluekey(reg, item.campo) === 0"
+                    class="center relative inline-block select-none whitespace-nowrap rounded-lg bg-[#2b92e4] py-2 px-3.5 align-baseline text-xs leading-none text-white"
+                  >
+                    <span class="mt-px">Pendiente</span>
+                  </div>
+
+                  <div
+                    *ngIf="getvaluekey(reg, item.campo) === 1"
+                    class="center relative inline-block select-none whitespace-nowrap rounded-lg bg-[#ee5253] py-2 px-3.5 align-baseline text-xs leading-none text-white"
+                  >
+                    <span class="mt-px">Cancelado</span>
+                  </div>
+                  <div
+                    *ngIf="getvaluekey(reg, item.campo) === 2"
+                    class="center relative inline-block select-none whitespace-nowrap rounded-lg bg-[#B2A02D] py-2 px-3.5 align-baseline text-xs leading-none text-white"
+                  >
+                    <span class="mt-px">Vencido</span>
+                  </div>
+                  <div
+                    *ngIf="getvaluekey(reg, item.campo) === 3"
+                    class="center relative inline-block select-none whitespace-nowrap rounded-lg bg-[#2DB23D] py-2 px-3.5 align-baseline text-xs leading-none text-white"
+                  >
+                    <span class="mt-px">Culminado</span>
+                  </div>
+                  <div
+                    *ngIf="getvaluekey(reg, item.campo) === 4"
                     class="center relative inline-block select-none whitespace-nowrap rounded-lg bg-[#2b92e4] py-2 px-3.5 align-baseline text-xs leading-none text-white"
                   >
                     <span class="mt-px">Activo</span>
                   </div>
                   <div
-                    *ngIf="!getvaluekey(reg, item.campo)"
+                    *ngIf="getvaluekey(reg, item.campo) === 5"
                     class="center relative inline-block select-none whitespace-nowrap rounded-lg bg-[#ee5253] py-2 px-3.5 align-baseline text-xs leading-none text-white"
                   >
                     <span class="mt-px">Inactivo</span>
                   </div>
                 </div>
+
                 <div *ngIf="item.tipo == 'date'">
                   <span>{{
                     getvaluekey(reg, item.campo) | date : "dd/MM/yyyy"
@@ -48,27 +74,45 @@
                 </div>
                 <div class="flex items-center" *ngIf="item.tipo == 'button'">
                   <img
+                    *ngIf="ver"
                     (click)="verRegistro(reg)"
-                    class="w-5"
+                    class="w-5 cursor-pointer"
                     src="assets/svg/eye-solid.svg"
                     alt=""
                   />
                   <img
-                    *ngIf="editar"
+                    *ngIf="actualizar && (getvaluekey(reg, item.campo) == 4)"
                     (click)="editarRegistro(reg)"
-                    class="w-5 ml-3"
+                    class="w-5 ml-3 cursor-pointer"
                     src="assets/svg/pen-to-square-solid.svg"
                     alt=""
                   />
                   <img
+                    *ngIf="
+                      eliminar &&
+                      (getvaluekey(reg, item.campo) == 0 ||
+                        getvaluekey(reg, item.campo) == 4)
+                    "
                     (click)="eliminarRegistro(reg)"
-                    class="w-4 ml-3"
+                    class="w-4 ml-3 cursor-pointer"
                     src="assets/svg/trash-solid.svg"
                     alt=""
                   />
-                  <img *ngIf="acceso"
+                  <img
+                    *ngIf="
+                      procesar &&
+                      (getvaluekey(reg, item.campo) == 0 ||
+                        getvaluekey(reg, item.campo) == 4)
+                    "
+                    (click)="procesarRegistro(reg)"
+                    class="w-4 ml-3 cursor-pointer"
+                    src="assets/svg/check-cita.svg"
+                    alt=""
+                  />
+                  <img
+                    *ngIf="acceso && (getvaluekey(reg, item.campo) == 4)"
                     (click)="accesosRegistro(reg)"
-                    class="w-4 ml-3"
+                    class="w-4 ml-3 cursor-pointer"
                     src="assets/svg/key-solid.svg"
                     alt=""
                   />
@@ -82,16 +126,16 @@
         </tbody>
       </table>
       <div class="p-3">
-        <h3 class="textReg">Total registros: {{totalCount}}</h3>
-    </div>
+        <h3 class="textReg">Total registros: {{ totalCount }}</h3>
+      </div>
     </div>
     <div class="flex items-center justify-center lg:px-0 sm:px-6 px-4">
       <div
         class="w-full flex items-center justify-between border-t border-gray-200"
       >
         <div
-          [class]="(currentPage == 1) ? 'invisible' : 'visible'"
-          class="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer"
+          [class]="currentPage == 1 ? 'invisible' : 'visible'"
+          class="flex items-center pt-3 text-gray-600 hover:text-coloresPer-icon cursor-pointer"
           (click)="siguientePaginado(currentPage - 1)"
         >
           <img class="w-2" src="assets/svg/chevron-left-solid.svg" alt="" />
@@ -101,9 +145,9 @@
           <p
             *ngFor="let item of totalPage"
             [class]="
-              currentPage == item
-                ? 'text-indigo-700 border-t border-indigo-400 pt-3 mr-4 px-2'
-                : 'text-gray-600 hover:text-indigo-700 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2'
+              currentPage === item
+                ? 'text-coloresPer-navcontainter border-t border-coloresPer-icon pt-3 mr-4 px-2'
+                : 'text-coloresPer-navcontainter hover:text-indigo-700 border-t border-transparent hover:border-coloresPer-icon pt-3 mr-4 px-2'
             "
             class="text-sm font-medium leading-none cursor-pointer"
             (click)="siguientePaginado(item)"
@@ -113,7 +157,7 @@
         </div>
         <div
           [class]="currentPage == numeroTotalPage ? 'invisible' : 'visible'"
-          class="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer"
+          class="flex items-center pt-3 text-gray-600 hover:text-coloresPer-icon cursor-pointer"
           (click)="siguientePaginado(currentPage + 1)"
         >
           <p class="text-sm font-medium leading-none mr-3 pt-3">Siguiente</p>

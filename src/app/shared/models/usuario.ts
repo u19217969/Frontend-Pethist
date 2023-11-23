@@ -3,11 +3,11 @@ export interface UsuarioRequest {
   idTipoDocumento?: number;
   idTipoUsuario?: number;
   nombreUsuario?: string;
-  login?: string;
+ // login?: string;
   nroDocumento?: string;
   clave?: string;
   correo?: number;
-  estado?: boolean;
+  estado?: number;
   creaUsuario?: string;
   modificaUsuario?: string;
   flag?: number;
@@ -19,6 +19,7 @@ export interface UsuarioListRequest {
   nroDocumento?: string;
   idTipoUsuario?: number;
   filtro?: string;
+  idUsuarioLogueado?:number;
 }
 export interface UsuarioListResponse{
   idUsuario?: number;
@@ -27,7 +28,7 @@ export interface UsuarioListResponse{
   idTipoUsuario?: number;
   nombreTipoUsuario?: string;
   nombreUsuario?: string;
-  login?: string;
+  //login?: string;
   nroDocumento?: string;
   correo?: string;
   clave?:string;

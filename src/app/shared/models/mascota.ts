@@ -8,7 +8,7 @@ export interface MascotaRequest {
   fechaNacimiento?: Date;
   colorMascota?: string;
   idUsuario?: number;
-  estado?: boolean;
+  estado?: number;
   creaUsuario?: string;
   modificaUsuario?: string;
   flag?: number;
@@ -33,7 +33,7 @@ export interface MascotaListResponse{
   colorMascota?: string;
   idUsuario?: number;
   nombreUsuario?:string;
-  estado?: boolean;
+  estado?: number;
   creaUsuario?: string;
   modificaUsuario?: string;
   flag?: number;

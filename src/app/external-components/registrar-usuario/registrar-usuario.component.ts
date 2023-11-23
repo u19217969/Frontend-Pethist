@@ -94,13 +94,13 @@ export class RegistrarUsuarioComponent implements OnInit {
         this.formMantenimientoUsuario.get('idTipoDocumento')!.value,
       idTipoUsuario: this.formMantenimientoUsuario.get('idTipoUsuario')!.value,
       nombreUsuario: this.formMantenimientoUsuario.get('nombreUsuario')!.value,
-      login: this.formMantenimientoUsuario.get('login')!.value,
+      //login: this.formMantenimientoUsuario.get('login')!.value,
       nroDocumento: this.formMantenimientoUsuario.get('nroDocumento')!.value,
       clave: this.formMantenimientoUsuario.get('clave')!.value,
       correo: this.formMantenimientoUsuario.get('correo')!.value,
-      estado: true,
-      creaUsuario: this.datosUsuario.login,
-      modificaUsuario: this.datosUsuario.login,
+      estado: 4,
+      creaUsuario: this.datosUsuario.nombre,
+      modificaUsuario: this.datosUsuario.nombre,
       flag: 1,
     };
     this.usuarioSubscription = this.usuarioService

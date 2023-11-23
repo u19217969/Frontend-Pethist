@@ -1,6 +1,4 @@
-<div
-  class="container lg:max-w-screen-2xl md:max-w-screen-2xl sm:max-w-screen-2xl px-5 mt-3"
->
+<div class="w-full px-12 py-9">
   <app-card cardTitle="">
     <div class="grid grid-cols-12 gap-4 m-auto">
       <app-input-text
@@ -14,7 +12,7 @@
       ></app-input-text>
       <app-input-select
         class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
-        inputTitle="Genero"
+        inputTitle="Género"
         [options]="listaGenero"
         (send)="obtenerDatosCombo(1, $event)"
       ></app-input-select>
@@ -52,6 +50,7 @@
         Registros de mascotas
       </p>
       <app-input-button-add
+        *ngIf="permisos.registrar"
         (click)="mostrarAgregarMascota()"
         class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full p-1"
         inputTitle="Nueva Mascota"
@@ -68,6 +67,9 @@
           (sendEdit)="editarMascota($event)"
           (sendDelete)="confirmacionMascota($event)"
           (sendPagination)="listarMascota($event)"
+          [actualizar]="permisos.actualizar"
+          [ver]="permisos.ver"
+          [eliminar]="permisos.eliminar"
         ></app-grid>
       </div>
     </div>
@@ -85,67 +87,61 @@
     (close)="modalAgregarMascotaVisible = false"
     size="w-3/4"
   >
-    <div class="grid grid-cols-12 gap-4 m-auto">
+    <div class="grid grid-cols-2 gap-4 m-auto">
       <app-input-select
         inputId="listaGenero"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         [inputValor]="mascotaMantenimiento.nombreGenero!"
-        inputTitle="Genero"
+        inputTitle="Género"
         [options]="listaGenero"
-        [noEditable]="tipoModal===4?true:false"
+        [noEditable]="tipoModal === 4 ? true : false"
         (send)="obtenerDatosCombo(4, $event)"
       ></app-input-select>
       <app-input-select
         inputId="listaTipo"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         [inputValor]="mascotaMantenimiento.nombreTipo!"
         inputTitle="Tipo"
         [options]="listaTipo"
-        [noEditable]="tipoModal===4?true:false"
+        [noEditable]="tipoModal === 4 ? true : false"
         (send)="obtenerDatosCombo(5, $event)"
       ></app-input-select>
       <app-input-text
-        class="sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6 col-span-full"
+        class="col-span-2"
         inputId="nombreMascota"
         inputTitle="Nombre"
         [inputValor]="this.formMantenimientoMascota.get('nombreMascota')!.value"
-
         inputPlaceHolder="Ingrese nombre mascota"
         inputType="text"
-        [disableInput]="tipoModal===4?true:false"
+        [disableInput]="tipoModal === 4 ? true : false"
         (send)="formMantenimientoMascota.get('nombreMascota')?.setValue($event)"
       ></app-input-text>
       <app-input-date
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="fechaNacimiento"
         [inputValor]="
           this.formMantenimientoMascota.get('fechaNacimiento')!.value
         "
         inputTitle="Fecha nacimiento"
-        [noEditable]="tipoModal===4?true:false"
+        [noEditable]="tipoModal === 4 ? true : false"
         (send)="
           formMantenimientoMascota.get('fechaNacimiento')?.setValue($event)
         "
       ></app-input-date>
       <app-input-text
-        class="sm:col-span-12 md:col-span-9 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="colorMascota"
         inputTitle="Color"
         [inputValor]="this.formMantenimientoMascota.get('colorMascota')!.value"
         inputPlaceHolder="Ingrese color"
-        [disableInput]="tipoModal===4?true:false"
+        [disableInput]="tipoModal === 4 ? true : false"
         inputType="text"
-
         (send)="formMantenimientoMascota.get('colorMascota')?.setValue($event)"
       ></app-input-text>
       <app-input-select
         *ngIf="flAdmin"
         inputId="listaCliente"
-        class="sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-6 col-span-full"
+        class="col-span-2"
         [inputValor]="mascotaMantenimiento.nombreUsuario!"
         inputTitle="Cliente"
         [options]="listaCliente"
-        [noEditable]="tipoModal===4?true:false"
+        [noEditable]="tipoModal === 4 ? true : false"
         (send)="obtenerDatosCombo(6, $event)"
       ></app-input-select>
     </div>
@@ -183,6 +179,5 @@
     [descripcion]="mensaje"
     (close)="eliminarMascota($event)"
     [confirmacion]="confirmacion"
-    size="w-96"
   ></app-modal-actions>
 </div>

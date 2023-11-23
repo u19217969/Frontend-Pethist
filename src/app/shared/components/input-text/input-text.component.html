@@ -1,44 +1,58 @@
 <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-white"
-    >{{ inputTitle }} {{inputRequired?'*':''}}
-  </label>
-        <div class="relative mb-2">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-                <img class="w-4 opacity-25" [src]="svgUrl" alt=""/>
-            </div>
-            <input *ngIf="inputMinLength===0 && inputMaxLength===0"
-            autocomplete="off"
-            [id]="inputId"
-            (keyup)="getData()"
-            [type]="inputType"
-            [value]="inputValor"
-            [class]="svgUrl===''?'pl-3':'pl-10'"
-            class="p-2 outline-none border-[1.2px] rounded-md w-full"
-            name="text"
-            [placeholder]="inputPlaceHolder"
-            [readonly]="disableInput"
-            (blur)="messageRequiredInput($event)"
-          />
-          <input *ngIf="inputMinLength!==0 && inputMaxLength!==0"
-            autocomplete="off"
-            [id]="inputId"
-            (keyup)="getData()"
-            [type]="inputType"
-            [value]="inputValor"
-            [class]="svgUrl===''?'pl-3':'pl-10'"
-            class="p-2 outline-none border-[1.2px] rounded-md w-full"
-            name="text"
-            [placeholder]="inputPlaceHolder"
-            (blur)="messageRequiredInput($event)"
-            [(ngModel)]="inputValor"
-            minlength="{{inputMinLength}}"
-            maxlength="{{inputMaxLength}}"
-            [appOnlyNumber] = "numericOnly"
+  >{{ inputTitle }} {{ inputRequired ? "*" : "" }}
+</label>
+<div class="relative mb-2">
+  <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+    <img class="w-4 opacity-25" [src]="svgUrl" alt="" />
+  </div>
+  <input
+    *ngIf="inputMinLength === 0 && inputMaxLength === 0"
+    autocomplete="off"
 
-          />
-          <div *ngIf="svgUrlAccion!==''" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 h-10">
-            <img class="w-5" (click)="changeTypeInput()" [src]="inputType==='password'?svgUrlAccion:'assets/svg/eye-slash-solid.svg'" alt=""/>
-          </div>
-          <p *ngIf="inputRequired" class="pt-2 text-red-500 text-xs">{{messageRequired}}</p>
+    [id]="inputId"
+    (keyup)="getData()"
+    [type]="inputType"
+    [value]="inputValor"
+    [class]="svgUrl === '' ? 'pl-3' : 'pl-10'"
+    class="p-2 outline-none border-[1.2px] rounded-md w-full text-gray-600 "
+    name="text"
+    [placeholder]="inputPlaceHolder"
+    [readonly]="disableInput"
+    (blur)="messageRequiredInput($event)"
 
-        </div>
-
+  />
+  <input
+    *ngIf="inputMinLength !== 0 && inputMaxLength !== 0"
+    autocomplete="off"
+    [id]="inputId"
+    (keyup)="getData()"
+    [type]="inputType"
+    [value]="inputValor"
+    [class]="svgUrl === '' ? 'pl-3' : 'pl-10'"
+    class="p-2 outline-none border-[1.2px] rounded-md w-full text-gray-600"
+    name="text"
+    [placeholder]="inputPlaceHolder"
+    (blur)="messageRequiredInput($event)"
+    [(ngModel)]="inputValor"
+    minlength="{{ inputMinLength }}"
+    maxlength="{{ inputMaxLength }}"
+    [appOnlyText]="textOnly"
+    [appOnlyNumber]="numericOnly"
+  />
+  <div
+    *ngIf="svgUrlAccion !== ''"
+    class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 h-10"
+  >
+    <img
+      class="w-5"
+      (click)="changeTypeInput()"
+      [src]="
+        inputType === 'password'
+          ? svgUrlAccion
+          : 'assets/svg/eye-slash-solid.svg'
+      "
+      alt=""
+    />
+  </div>
+  <p *ngIf="inputRequired" class="pt-2 text-red-500 font-bold  text-sm">{{messageRequired}}</p>
+</div>

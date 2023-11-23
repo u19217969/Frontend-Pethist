@@ -16,7 +16,7 @@
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
-@import '@ionic/angular/css/display.css';
+@import "@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
@@ -30,9 +30,9 @@
 @tailwind utilities;
 
 $color-one: #535c68;
-$color-two: #F8D0D2;
-$color-three: #EFF2F8;
-$color-four: #2b92e4;
+$color-two: #f8d0d2;
+$color-three: #eff2f8;
+$color-four: #7d7143;
 $font-size: 16px;
 
 ::-webkit-scrollbar {
@@ -45,19 +45,19 @@ $font-size: 16px;
   background: darkgray;
 }
 
-.contentCard{
+.contentCard {
   /* height: 10rem; */
   border-radius: 1rem;
   // padding: 2rem;
   box-shadow: 0px 3px 12px rgba(114, 124, 142, 0.196706);
 }
-.subtitulo{
+.subtitulo {
   color: $color-four;
   font-size: 18px;
   font-weight: bold;
   align-self: center;
 }
-.buttonLogin{
+.buttonLogin {
   background: $color-four;
 }
 
@@ -65,24 +65,24 @@ $font-size: 16px;
   background: $color-four;
 }
 
-.buttonFour{
+.buttonFour {
   border: 1px solid $color-four;
   color: $color-four;
 }
 
-.buttonModalCancel{
+.buttonModalCancel {
   border: 1px solid $color-four;
   border-radius: 6px;
   color: $color-four;
 }
 
-.buttonModalAceptar{
+.buttonModalAceptar {
   background: $color-four;
   border: 1px solid $color-four;
   border-radius: 6px;
 }
 
-.descripcion{
+.descripcion {
   font-weight: 500;
   line-height: 30px;
   align-items: center;
@@ -91,12 +91,12 @@ $font-size: 16px;
 }
 
 .textReg {
-  font-style: normal;
+  // font-style: normal;
   font-size: 13px;
   line-height: 17px;
-  color: #868685;
+  color: #645a2e;
+  font-weight: 800 !important;
 }
-
 
 /* CheckBox */
 
@@ -168,35 +168,54 @@ $font-size: 16px;
 }
 /* Fin CheckBox */
 
-.color-logo
-{
+.color-logo {
   background-color: transparent;
-  border: 1px solid #7D7143;
-  color: #7D7143;
+  border: 1px solid #7d7143;
+  color: #7d7143;
   transition: all ease 0.6s;
 }
-.color-logo:hover
-{
-  background-color: #7D7143;
-  color: #FFFFFF;
+.color-logo:hover {
+  background-color: #7d7143;
+  color: #ffffff;
   transition: all ease 0.3s;
 }
-.color-logo:active
-{
+.color-logo:active {
   opacity: 0.6;
 }
-.color-logo2
-{
-  background-color: #7D7143;
-  color: #FFFFFF;
+.color-logo2 {
+  background-color: #7d7143;
+  color: #ffffff;
   transition: all ease 0.6s;
 }
-.color-logo2:hover
-{
+.color-logo2:hover {
   background-color: #524b2c;
   transition: all ease 0.3s;
 }
-.color-logo2:active
-{
+.color-logo2:active {
   opacity: 0.6;
+}
+[type="text"]:focus,
+[type="email"]:focus,
+[type="url"]:focus,
+[type="password"]:focus,
+[type="number"]:focus,
+[type="date"]:focus,
+[type="datetime-local"]:focus,
+[type="month"]:focus,
+[type="search"]:focus,
+[type="tel"]:focus,
+[type="time"]:focus,
+[type="week"]:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+  --tw-ring-color: #7d7143;
+  border-color: #7d7143;
+}
+//cambiar color de icono en inputs de tipo date
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
 }

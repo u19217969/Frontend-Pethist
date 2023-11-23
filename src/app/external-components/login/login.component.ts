@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/core/services/login.service';
 import { LoginRequest } from 'src/app/shared/models/login';
@@ -108,6 +108,7 @@ export class LoginComponent implements OnInit {
         .listarMenu(body)
         .pipe(
           tap((response) => {
+            console.log(response)
             // Código que se ejecuta cuando se recibe la respuesta del servicio
             if (response.success) {
               this.authorizesService.grabarMenu(
@@ -142,4 +143,16 @@ export class LoginComponent implements OnInit {
     this.mensaje = mensaje;
     this.modalAccionesVisible = true;
   }
+
+
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      //this.createForm();
+      this.ingresar();
+    }
+  }
+
+ 
 }

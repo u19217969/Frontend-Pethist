@@ -1,5 +1,5 @@
 <div
-  class="container lg:max-w-screen-2xl md:max-w-screen-2xl sm:max-w-screen-2xl px-5 mt-3"
+class="w-full px-12 py-9"
 >
   <app-card cardTitle="">
     <div class="grid grid-cols-10 gap-4 m-auto">
@@ -54,6 +54,7 @@
         Registros de usuarios
       </p>
       <app-input-button-add
+        *ngIf="permisos.registrar"
         class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full p-1"
         inputTitle="Nuevo Usuario"
         (click)="mostrarAgregarUsuario()"
@@ -70,8 +71,11 @@
           (sendEdit)="editarUsuario($event)"
           (sendDelete)="confirmacionUsuario($event)"
           (sendAcceso)="accesoUsuario($event)"
-          [acceso]="true"
           (sendPagination)="listarUsuario($event)"
+          [actualizar]="permisos.actualizar"
+          [ver]="permisos.ver"
+          [eliminar]="permisos.eliminar"
+          [acceso]="permisos.acceso"
         ></app-grid>
       </div>
     </div>
@@ -89,29 +93,30 @@
     (close)="modalUsuarioVisible = false"
     size="w-3/4"
   >
-    <div class="grid grid-cols-12 gap-4 m-auto">
+    <div class="grid grid-cols-3 gap-4 m-auto">
       <app-input-select
         inputId="tipoDocumentoModal"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
         [inputValor]="usuarioMantenimiento.nombreTipoDocumento!"
         inputTitle="Tipo Documento"
         [options]="listaTipoDocumento"
+        [noEditable]="true"
         (send)="
           formMantenimientoUsuario
             .get('idTipoDocumento')
             ?.setValue($event.idMaestro)
         "
+
       ></app-input-select>
       <app-input-text
-        class="sm:col-span-12 md:col-span-3 lg:col-span-2 xl:col-span-2 col-span-full"
         inputId="nroDocumentoModal"
         inputTitle="Nro documento"
         [inputValor]="this.formMantenimientoUsuario.get('nroDocumento')!.value"
         inputPlaceHolder="Ingrese nro documento"
         inputType="text"
+        [disableInput]="true"
         (send)="formMantenimientoUsuario.get('nroDocumento')?.setValue($event)"
       ></app-input-text>
-      <app-input-text
+      <!--<app-input-text
         class="sm:col-span-12 md:col-span-6 lg:col-span-8 xl:col-span-8 col-span-full"
         inputId="nombre"
         inputTitle="Nombre completo"
@@ -120,13 +125,13 @@
         inputType="text"
         (send)="formMantenimientoUsuario.get('nombreUsuario')?.setValue($event)"
       ></app-input-text>
-
+      -->
       <app-input-select
         inputId="tipoUsuarioModal"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         [inputValor]="usuarioMantenimiento.nombreTipoUsuario!"
         inputTitle="Tipo usuario"
         [options]="listaTipoUsuario"
+        [noEditable]="tipoModal===4?true:false"
         (send)="
           formMantenimientoUsuario
             .get('idTipoUsuario')
@@ -134,6 +139,16 @@
         "
       ></app-input-select>
       <app-input-text
+        class="col-span-3"
+        inputId="nombre"
+        inputTitle="Nombre completo"
+        [inputValor]="this.formMantenimientoUsuario.get('nombreUsuario')!.value"
+        inputPlaceHolder="Ingrese nombre completo"
+        inputType="text"
+        [disableInput]="tipoModal===4?true:false"
+        (send)="formMantenimientoUsuario.get('nombreUsuario')?.setValue($event)"
+      ></app-input-text>
+      <!--<app-input-text
         class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="login"
         inputTitle="Login"
@@ -141,8 +156,8 @@
         inputPlaceHolder="Ingrese login"
         inputType="text"
         (send)="formMantenimientoUsuario.get('login')?.setValue($event)"
-      ></app-input-text>
-      <app-input-text
+      ></app-input-text>-->
+      <!--<app-input-text
         class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="clave"
         inputTitle="Clave"
@@ -150,7 +165,7 @@
         inputPlaceHolder="Ingrese clave"
         inputType="password"
         (send)="formMantenimientoUsuario.get('clave')?.setValue($event)"
-      ></app-input-text>
+      ></app-input-text>-->
       <app-input-text
         class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="correo"
@@ -158,6 +173,7 @@
         [inputValor]="this.formMantenimientoUsuario.get('correo')!.value"
         inputPlaceHolder="Ingrese correo"
         inputType="text"
+        [disableInput]="true"
         (send)="formMantenimientoUsuario.get('correo')?.setValue($event)"
       ></app-input-text>
     </div>
@@ -196,20 +212,21 @@
     (close)="eliminarUsuario($event)"
     [confirmacion]="confirmacion"
     size="w-96"
+    colormodal="#FFFDEF"
   ></app-modal-actions>
   <app-modal
     [visible]="modalAccesoVisible"
     (close)="modalAccesoVisible = false"
     size="w-3/4"
   >
-    <section class="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
-      <div class="container shadow-lg h-full">
+  <section class="gradient-form h-full  dark:bg-neutral-700">
+    <div class="container h-full">
         <div
           class="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200"
         >
           <div class="w-full">
             <div
-              class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800"
+              class="block rounded-lg dark:bg-neutral-800"
             >
               <div class="g-0 lg:flex lg:flex-wrap">
                 <div class="px-4 md:px-0 lg:w-6/12">
@@ -217,13 +234,13 @@
                     <p
                       class="sm:col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8 col-span-full subtitulo"
                     >
-                      Menu
+                      Menú
                     </p>
                     <div
-                      class="bg-white rounded-lg flex items-center justify-between space-x-8"
+                      class="rounded-lg flex items-center justify-between space-x-8"
                       *ngFor="let item of listMenuAcceso"
                     >
-                      <div class="flex-1 flex justify-between items-center">
+                      <div class="flex-1 flex justify-between items-center" >
                         <div class="p-2 mt-2 w-48 bg-gray-300 rounded">
                           {{ item.nombre }}
                         </div>
@@ -233,7 +250,7 @@
                               <app-input-check
                                 size="w-5 h-5"
                                 [check]="item.acceso!"
-                                (send)="item.acceso=$event"
+                                (send)="item.acceso = $event"
                               ></app-input-check>
                             </div>
                             <div class="p-1">
@@ -258,10 +275,10 @@
                     <p
                       class="sm:col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8 col-span-full subtitulo"
                     >
-                      Sub-menu
+                      Sub-menú
                     </p>
                     <div
-                      class="bg-white rounded-lg space-x-8"
+                      class="rounded-lg space-x-8"
                       *ngFor="let itemHijo of seleccionMenuHijo"
                     >
                       <div class="flex-1 flex justify-between items-center">
@@ -273,8 +290,9 @@
                             <div>
                               <app-input-check
                                 size="w-5 h-5"
+                                title="visibilidad"
                                 [check]="itemHijo.acceso!"
-                                (send)="itemHijo.acceso=$event"
+                                (send)="itemHijo.acceso = $event"
                               ></app-input-check>
                             </div>
                           </div>
@@ -283,36 +301,81 @@
                       <div style="margin-left: 0px !important" class="mt-2">
                         Tipo de accesos:
                         <div>
-                          <div class="p-1">
+                          <div
+                            class="p-1"
+                            *ngIf="
+                              itemHijo.url != '/control/home' &&
+                              (itemHijo.url == '/control/citas' ||
+                                itemHijo.url == '/control/mascotas' ||
+                                itemHijo.url == '/control/usuarios')
+                            "
+                          >
                             <app-input-check
                               size="w-5 h-5"
                               [check]="itemHijo.ver!"
                               title="Ver"
-                              (send)="itemHijo.ver=$event"
+                              (send)="itemHijo.ver = $event"
                             ></app-input-check>
                           </div>
-                          <div class="p-1">
+                          <div
+                            class="p-1"
+                            *ngIf="
+                              itemHijo.url != '/control/home' &&
+                              (itemHijo.url == '/control/citas' ||
+                                itemHijo.url == '/control/mascotas' ||
+                                itemHijo.url == '/control/usuarios')
+                            "
+                          >
                             <app-input-check
                               size="w-5 h-5"
                               [check]="itemHijo.registrar!"
                               title="Registrar"
-                              (send)="itemHijo.registrar=$event"
+                              (send)="itemHijo.registrar = $event"
                             ></app-input-check>
                           </div>
-                          <div class="p-1">
+                          <div
+                            class="p-1"
+                            *ngIf="
+                              itemHijo.url != '/control/home' &&
+                              (itemHijo.url == '/control/mascotas' ||
+                                itemHijo.url == '/control/usuarios')
+                            "
+                          >
                             <app-input-check
                               size="w-5 h-5"
                               [check]="itemHijo.actualizar!"
                               title="Actualizar"
-                              (send)="itemHijo.actualizar=$event"
+                              (send)="itemHijo.actualizar = $event"
                             ></app-input-check>
                           </div>
-                          <div class="p-1">
+                          <div
+                            class="p-1"
+                            *ngIf="
+                              itemHijo.url != '/control/home' &&
+                              (itemHijo.url == '/control/citas' ||
+                                itemHijo.url == '/control/mascotas' ||
+                                itemHijo.url == '/control/usuarios')
+                            "
+                          >
                             <app-input-check
                               size="w-5 h-5"
                               [check]="itemHijo.eliminar!"
                               title="Eliminar"
-                              (send)="itemHijo.eliminar=$event"
+                              (send)="itemHijo.eliminar = $event"
+                            ></app-input-check>
+                          </div>
+                          <div
+                            class="p-1"
+                            *ngIf="
+                              itemHijo.url != '/control/home' &&
+                              itemHijo.url == '/control/citas'
+                            "
+                          >
+                            <app-input-check 
+                              size="w-5 h-5"
+                              [check]="itemHijo.procesar!"
+                              title="Procesar"
+                              (send)="itemHijo.procesar = $event"
                             ></app-input-check>
                           </div>
                         </div>

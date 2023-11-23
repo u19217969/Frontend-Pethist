@@ -10,7 +10,7 @@ export interface CitaRequest {
   motivo?: string;
   observacion?: string;
   idEstadoCita?: number;
-  estado?: boolean;
+  estado?: number;
   creaUsuario?: string;
   modificaUsuario?: string;
   flag?: number;
@@ -37,7 +37,7 @@ export interface CitaListResponse {
   nombreMascota?: string;
   horaCita?: string;
   motivo?: string;
-  estado?: boolean;
+  estado?: number;
   creaUsuario?: string;
   modificaUsuario?: string;
   flag?: number;

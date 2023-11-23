@@ -14,6 +14,7 @@ export interface MantenimientoAccesoRequest {
   actualizar?: boolean;
   eliminar?: boolean;
   acceso?: boolean;
+  procesar?:boolean;
   creaUsuario?: string;
   modificaUsuario?: string;
   usuarioAccesoHijo?:MantenimientoAccesoRequest[];

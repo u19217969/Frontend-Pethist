@@ -22,6 +22,7 @@ export interface MenuListaHijo {
   registrar?: boolean;
   actualizar?: boolean;
   eliminar?: boolean;
+  procesar?:boolean;
   acceso?: boolean;
 }
 

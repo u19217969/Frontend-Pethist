@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 import { RegistrarUsuarioComponent } from './registrar-usuario/registrar-usuario.component';
+import { CambiarContrasenaComponent } from './cambiar-contrasena/cambiar-contrasena.component';
 
 const routes: Routes = [
  // { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "recover-password", component: RecoverPasswordComponent },
   { path: "registrar-usuario", component: RegistrarUsuarioComponent },
+  { path: "cambiar-clave", component: CambiarContrasenaComponent },
 ];
 
 @NgModule({

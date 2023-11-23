@@ -14,39 +14,52 @@ export class GridComponent implements OnInit {
   @Output() sendDelete = new EventEmitter();
   @Output() sendPagination = new EventEmitter();
   @Output() sendAcceso = new EventEmitter();
+  @Output() procesarCita = new EventEmitter();
 
-  @Input() totalPage: Array<any> =[];
-  @Input() totalCount: number =0;
-  @Input() numeroTotalPage: number =0;
-  @Input() currentPage: number =0;
+  @Input() totalPage: Array<any> = [];
+  @Input() totalCount: number = 0;
+  @Input() numeroTotalPage: number = 0;
+  @Input() currentPage: number = 0;
 
-  @Input() acceso: boolean =false;
+  //permiso
+  @Input() acceso: boolean = false;
+  @Input() actualizar: boolean = false;
+  @Input() procesar: boolean = false;
+  @Input() registrar: boolean = false;
+  @Input() ver: boolean = false;
+  @Input() eliminar: boolean =false;
 
-  @Input() editar: boolean =true;
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
+   
 
   }
 
   getvaluekey(obj: any, key_name: string) {
+    //console.log(obj[key_name]);
     return obj[key_name];
   }
-  verRegistro(item:any){
+  verRegistro(item: any) {
     this.sendView.emit(item);
   }
-  editarRegistro(item:any){
+  editarRegistro(item: any) {
     this.sendEdit.emit(item);
   }
-  eliminarRegistro(item:any){
+
+  eliminarRegistro(item: any) {
     this.sendDelete.emit(item);
   }
-  accesosRegistro(item:any){
+  accesosRegistro(item: any) {
     this.sendAcceso.emit(item);
   }
-  siguientePaginado(numero:number){
+  siguientePaginado(numero: number) {
     this.sendPagination.emit(numero);
   }
 
+  procesarRegistro(item: any) {
+    this.procesarCita.emit(item);
+  }
 }

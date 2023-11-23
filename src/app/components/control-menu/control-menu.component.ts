@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { AuthorizesService } from 'src/app/core/services/authorizes.service';
 import { PermisoService } from 'src/app/core/services/permiso.service';
 import { Authorize } from 'src/app/shared/models/authorize';
@@ -10,62 +10,61 @@ import { MenuListaPadre } from 'src/app/shared/models/menu';
   templateUrl: './control-menu.component.html',
   styleUrls: ['./control-menu.component.scss'],
 })
-export class ControlMenuComponent  implements OnInit {
-
+export class ControlMenuComponent implements OnInit {
   @Output() closeSideNav = new EventEmitter();
 
-  flagMostrarMenu: boolean=false;
+  flagMostrarMenu: boolean = false;
   datosUsuario: Authorize = {};
   listaMenu: MenuListaPadre[] = [];
 
   constructor(
-    private authorizesService:AuthorizesService,
+    private authorizesService: AuthorizesService,
     private permisoService: PermisoService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.cargarParametros();
   }
 
   onToggleClose() {
-    this.closeSideNav.emit("close");
+    this.closeSideNav.emit('close');
   }
 
-  prueba(){
-    this.flagMostrarMenu=!this.flagMostrarMenu;
+  prueba() {
+    this.flagMostrarMenu = !this.flagMostrarMenu;
   }
 
-  cargarParametros(){
+  cargarParametros() {
     this.datosUsuario = this.authorizesService.obtenerUsuarioAutentificacion();
     this.listaMenu = JSON.parse(this.authorizesService.obtenerMenu());
-    // console.log(this.listaMenu)
+   //  console.log(this.listaMenu);
+    //console.log(this.datosUsuario)
   }
 
-  mostrarHijo(index:number){
+  mostrarHijo(index: number) {
     this.deseleccionarMenu();
-    this.listaMenu[index].seleccion=true;
+    this.listaMenu[index].seleccion = true;
   }
 
-  cerrarSesion(){
+  cerrarSesion() {
     this.authorizesService.cerrarSesion();
     this.permisoService.permisosNoConcedido();
   }
 
-  deseleccionarMenu(){
+  deseleccionarMenu() {
     this.listaMenu = this.listaMenu.map((menu) => {
       return {
         ...menu,
-        seleccion: false
+        seleccion: false,
       };
     });
   }
-  async redireccionar(ruta:any) {
+  async redireccionar(dato: any) {
+   // console.log(dato);
     this.onToggleClose();
     try {
-      await this.router.navigateByUrl(ruta, { replaceUrl: true });
-    } catch (error) {
-    }
+      await this.router.navigateByUrl(dato.url, { replaceUrl: true });
+    } catch (error) {}
   }
-
 }

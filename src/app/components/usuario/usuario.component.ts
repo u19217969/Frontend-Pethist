@@ -6,9 +6,16 @@ import { AuthorizesService } from 'src/app/core/services/authorizes.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { MaestroService } from 'src/app/core/services/maestro.service';
 import { UsuarioService } from 'src/app/core/services/usuario.service';
-import { Authorize, MantenimientoAccesoRequest } from 'src/app/shared/models/authorize';
+import {
+  Authorize,
+  MantenimientoAccesoRequest,
+} from 'src/app/shared/models/authorize';
 import { datat } from 'src/app/shared/models/datat';
-import { MenuListaHijo, MenuListaPadre, MenuRequest } from 'src/app/shared/models/menu';
+import {
+  MenuListaHijo,
+  MenuListaPadre,
+  MenuRequest,
+} from 'src/app/shared/models/menu';
 
 import {
   ParametroMaestro,
@@ -70,8 +77,8 @@ export class UsuarioComponent implements OnInit {
       visible: true,
     },
     { titulo: 'Correo', campo: 'correo', tipo: 'text', visible: true },
-    { titulo: 'Estado', campo: 'estado', tipo: 'boolean', visible: true },
-    { titulo: 'Acciones', campo: '', tipo: 'button', visible: true },
+    { titulo: 'Estado', campo: 'estado', tipo: 'int', visible: true },
+    { titulo: 'Acciones', campo: 'estado', tipo: 'button', visible: true },
   ];
   dataDetalleUsuario: Array<any> = [];
 
@@ -86,11 +93,15 @@ export class UsuarioComponent implements OnInit {
   confirmacion: boolean = false;
   tipoModal: number = 1;
 
-  listMenuAcceso: MenuListaPadre[]=[]
-  seleccionMenuHijo: MenuListaHijo[]=[]
-  mantenimientoAcceso: MantenimientoAccesoRequest[]=[]
+  //permisos del usuario
+  permisos: any;
+  //informacion del usuario
 
-  idUsuarioSeleccionado:number=0;
+  listMenuAcceso: MenuListaPadre[] = [];
+  seleccionMenuHijo: MenuListaHijo[] = [];
+  mantenimientoAcceso: MantenimientoAccesoRequest[] = [];
+
+  idUsuarioSeleccionado: number = 0;
 
   private usuarioSubscription: Subscription = new Subscription();
   constructor(
@@ -98,8 +109,8 @@ export class UsuarioComponent implements OnInit {
     private usuarioService: UsuarioService,
     private fb: FormBuilder,
     private authorizesService: AuthorizesService,
-    private loginService:LoginService,
-    private accesoService:AccesoService
+    private loginService: LoginService,
+    private accesoService: AccesoService
   ) {
     this.createForm();
   }
@@ -136,6 +147,8 @@ export class UsuarioComponent implements OnInit {
     this.mostrarTipoDocumento();
     this.mostrarTipoUsuario();
     this.datosUsuario = this.authorizesService.obtenerUsuarioAutentificacion();
+    const permisoPagina = JSON.parse(this.authorizesService.obtenerMenu());
+    this.permisos = permisoPagina[3].usuarioAccesoHijo[0];
   }
   mostrarTipoDocumento() {
     const id = ParametroMaestro.tipoDocumento;
@@ -191,6 +204,7 @@ export class UsuarioComponent implements OnInit {
       nroDocumento: this.formUsuariosFiltros.value.nroDocumento,
       idTipoUsuario: this.formUsuariosFiltros.value.idTipoUsuario,
       filtro: this.formUsuariosFiltros.value.filtro,
+      idUsuarioLogueado:this.datosUsuario.idUsuario
     };
     this.usuarioSubscription = this.usuarioService
       .listarUsuario(body)
@@ -238,11 +252,11 @@ export class UsuarioComponent implements OnInit {
         this.formMantenimientoUsuario.get('idTipoDocumento')!.value,
       idTipoUsuario: this.formMantenimientoUsuario.get('idTipoUsuario')!.value,
       nombreUsuario: this.formMantenimientoUsuario.get('nombreUsuario')!.value,
-      login: this.formMantenimientoUsuario.get('login')!.value,
+   //   login: this.formMantenimientoUsuario.get('login')!.value,
       nroDocumento: this.formMantenimientoUsuario.get('nroDocumento')!.value,
       clave: this.formMantenimientoUsuario.get('clave')!.value,
       correo: this.formMantenimientoUsuario.get('correo')!.value,
-      estado: true,
+      estado: 4,
       creaUsuario: this.datosUsuario.login,
       modificaUsuario: this.datosUsuario.login,
       flag: this.tipoModal,
@@ -292,7 +306,7 @@ export class UsuarioComponent implements OnInit {
     this.usuarioMantenimiento = item;
     this.formMantenimientoUsuario.patchValue(item);
     this.formMantenimientoUsuario.patchValue({
-      clave:''
+      clave: '',
     });
     this.modalUsuarioVisible = true;
   }
@@ -302,7 +316,7 @@ export class UsuarioComponent implements OnInit {
     this.usuarioMantenimiento = item;
     this.formMantenimientoUsuario.patchValue(item);
     this.formMantenimientoUsuario.patchValue({
-      clave:''
+      clave: '',
     });
     this.modalRespuesta(
       'assets/svg/circle-info-solid.svg',
@@ -317,10 +331,11 @@ export class UsuarioComponent implements OnInit {
       this.modalAccionesVisible = false;
     }
   }
+
   accesoUsuario(item: any) {
     this.modalAccesoVisible = true;
-    this.seleccionMenuHijo=[];
-    this.mostrarListaMenu(item.idUsuario);
+    this.seleccionMenuHijo = [];
+    this.mostrarListaMenu(item.idUsuario, item.idTipoUsuario);
   }
   modalRespuesta(svg: string, mensaje: string) {
     this.svg = svg;
@@ -335,7 +350,7 @@ export class UsuarioComponent implements OnInit {
       idTipoUsuario: 0,
       nombreTipoUsuario: 'Seleccionar',
       nombreUsuario: '',
-      login: '',
+      //login: '',
       nroDocumento: '',
       correo: '',
       estado: false,
@@ -343,8 +358,8 @@ export class UsuarioComponent implements OnInit {
     this.formMantenimientoUsuario.reset();
     this.formMantenimientoUsuario.markAsUntouched();
   }
-  mostrarListaMenu(idUsuario:number) {
-    this.idUsuarioSeleccionado=idUsuario;
+  mostrarListaMenu(idUsuario: number, idTipoUsuario:number) {
+    this.idUsuarioSeleccionado = idUsuario;
     let body: MenuRequest = {
       idUsuario: idUsuario,
     };
@@ -353,7 +368,9 @@ export class UsuarioComponent implements OnInit {
       .pipe(
         tap((response) => {
           // Código que se ejecuta cuando se recibe la respuesta del servicio
-          this.listMenuAcceso=response.dataListModel
+          this.listMenuAcceso = response.dataListModel;
+          this.listMenuAcceso.splice(idTipoUsuario !=2? 4:3);
+          console.log(this.listMenuAcceso)
         }),
         map((response) => {
           // Código que transforma la respuesta del servicio
@@ -366,25 +383,24 @@ export class UsuarioComponent implements OnInit {
       )
       .subscribe();
   }
-  obtenerMenuHijo(listaHijo:MenuListaHijo[]){
-    this.seleccionMenuHijo=listaHijo;
+  obtenerMenuHijo(listaHijo: MenuListaHijo[]) {
+    this.seleccionMenuHijo = listaHijo;
   }
-  registrarAcceso(){
-    this.listMenuAcceso.forEach(e => {
-      this.mantenimientoAcceso.push(
-        {
-          idUsuario:this.idUsuarioSeleccionado,
-          idMenu:e.idMenu,
-          ver:false,
-          registrar:false,
-          actualizar:false,
-          eliminar:false,
-          acceso:e.acceso,
-          creaUsuario:this.datosUsuario.login,
-          modificaUsuario:this.datosUsuario.login,
-          usuarioAccesoHijo:e.usuarioAccesoHijo
-        }
-      )
+  registrarAcceso() {
+    this.listMenuAcceso.forEach((e) => {
+      this.mantenimientoAcceso.push({
+        idUsuario: this.idUsuarioSeleccionado,
+        idMenu: e.idMenu,
+        ver: false,
+        registrar: false,
+        actualizar: false,
+        eliminar: false,
+        procesar:false,
+        acceso: e.acceso,
+        creaUsuario: this.datosUsuario.login,
+        modificaUsuario: this.datosUsuario.login,
+        usuarioAccesoHijo: e.usuarioAccesoHijo,
+      });
     });
 
     this.usuarioSubscription = this.accesoService
@@ -415,6 +431,5 @@ export class UsuarioComponent implements OnInit {
         })
       )
       .subscribe();
-
   }
 }

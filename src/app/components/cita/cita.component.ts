@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  Router,
+} from '@angular/router';
 import { Subscription, tap, map, catchError } from 'rxjs';
 import { AuthorizesService } from 'src/app/core/services/authorizes.service';
 import { CitaService } from 'src/app/core/services/cita.service';
@@ -30,6 +34,7 @@ export class CitaComponent implements OnInit {
   listaMascota: Select[] = [];
   listaDoctor: Select[] = [];
 
+  //tabla
   dataCabeceraMascota: Array<datat> = [
     {
       titulo: 'Fecha solicitud',
@@ -42,8 +47,8 @@ export class CitaComponent implements OnInit {
     { titulo: 'Mascota', campo: 'nombreMascota', tipo: 'text', visible: true },
     { titulo: 'Fecha cita', campo: 'fechaCita', tipo: 'date', visible: true },
     { titulo: 'Hora cita', campo: 'horaCita', tipo: 'text', visible: true },
-    { titulo: 'Estado', campo: 'estado', tipo: 'boolean', visible: true },
-    { titulo: 'Acciones', campo: '', tipo: 'button', visible: true },
+    { titulo: 'Estado', campo: 'estado', tipo: 'int', visible: true },
+    { titulo: 'Acciones', campo: 'estado', tipo: 'button', visible: true },
   ];
   dataDetalleCita: Array<any> = [];
   datosUsuario: Authorize = {};
@@ -67,7 +72,7 @@ export class CitaComponent implements OnInit {
   citaMantenimiento: CitaListResponse = {
     fechaCita: '',
   };
-
+  permisos: any;
   private citaSubscription: Subscription = new Subscription();
   constructor(
     private fb: FormBuilder,
@@ -78,7 +83,6 @@ export class CitaComponent implements OnInit {
   ) {
     this.createForm();
   }
-
   ngOnInit() {
     this.cargarPametrosSistema();
     this.mostrarMascota();
@@ -99,21 +103,27 @@ export class CitaComponent implements OnInit {
 
   validarTipoUsuario() {
     this.datosUsuario = this.authorizesService.obtenerUsuarioAutentificacion();
+    const permisoPagina = JSON.parse(this.authorizesService.obtenerMenu());
+    this.permisos = permisoPagina[1].usuarioAccesoHijo[0];
     const id = ParametroMaestro.validarAdministrador;
     this.citaSubscription = this.maestroService
       .listarMaestro(id)
       .pipe(
         tap((response) => {
+          // console.log(response);
           // Código que se ejecuta cuando se recibe la respuesta del servicio
           let dataMaestra = response.dataListModel[0].nombreMaestro
             .toString()
             .split(',');
+
           let dataUsuario = this.datosUsuario.nombreTipo!;
+          //console.log('Nombre de tipo: ' + dataUsuario);
           if (dataMaestra.includes(dataUsuario)) {
             this.flAdmin = true;
           } else {
             this.flAdmin = false;
           }
+
           this.mostrarClientes();
           this.listarCita(1);
         }),
@@ -166,6 +176,7 @@ export class CitaComponent implements OnInit {
       .listarTabla(body)
       .pipe(
         tap((response) => {
+          console.log(response)
           // Código que se ejecuta cuando se recibe la respuesta del servicio
           this.listaMascota = response.dataListModel;
         }),
@@ -191,6 +202,7 @@ export class CitaComponent implements OnInit {
     } else {
       idCliente = this.datosUsuario.idUsuario!;
     }
+
     let body: CitaListRequest = {
       numeroPagina: numeroPagina,
       numeroRegistros: this.numeroRegistros,
@@ -203,6 +215,7 @@ export class CitaComponent implements OnInit {
       .listarCita(body)
       .pipe(
         tap((response) => {
+          // console.log(response)
           // Código que se ejecuta cuando se recibe la respuesta del servicio
           if (response.records) {
             this.dataDetalleCita = response.dataListModel;
@@ -240,13 +253,14 @@ export class CitaComponent implements OnInit {
     console.log(item);
   }
   confirmacionCita(item: any) {
-    console.log(item,"confirmacion")
+    console.log(item, 'confirmacion');
     this.tipoModal = 3;
     this.confirmacion = true;
     this.citaMantenimiento = item;
+    console.log('data: ' + this.datosUsuario.nombreTipo);
     this.modalRespuesta(
       'assets/svg/circle-info-solid.svg',
-      '¿Está seguro de eliminar la cita de  “' + item.nombreMascota + '”?'
+      '¿Está seguro de cancelar la cita de  “' + item.nombreMascota + '”?'
     );
   }
   eliminarCita(event: any) {
@@ -257,6 +271,80 @@ export class CitaComponent implements OnInit {
       this.modalAccionesVisible = false;
     }
   }
+
+  citaCulminada(item: any) {
+    console.log(item, 'culminar cita');
+    this.citaMantenimiento = item;
+    let body: CitaRequest = {
+      idCita: this.citaMantenimiento.idCita,
+      idDoctor: this.citaMantenimiento.idDoctor,
+      idMascota: this.citaMantenimiento.idMascota,
+      fechaCita: new Date(),
+      horaCita: this.citaMantenimiento.horaCita,
+      motivo: this.citaMantenimiento.motivo,
+      observacion: '',
+      idEstadoCita: 1,
+      estado: 3,
+      creaUsuario: this.datosUsuario.login,
+      modificaUsuario: this.datosUsuario.login,
+      flag: this.tipoModal,
+    };
+
+    this.citaSubscription = this.citaService
+      .mantenimientoCita(body)
+      .pipe(
+        tap((response) => {
+          this.confirmacion = false;
+          if (response.success) {
+            this.modalRespuesta(
+              'assets/svg/circle-check-solid.svg',
+              response.dataModel.mensaje
+            );
+            this.modalCitaVisible = false;
+            this.listarCita(this.currentPage);
+          } else {
+            this.modalRespuesta(
+              'assets/svg/circle-xmark-solid.svg',
+              response.message
+            );
+          }
+        }),
+        map((response) => {
+          // Código que transforma la respuesta del servicio
+          //return response;
+        }),
+        catchError((error) => {
+          // Código que maneja el error si se produce uno
+          console.log(error, 'error');
+          throw error;
+        })
+      )
+      .subscribe();
+  }
+
+  modalRespuesta(svg: string, mensaje: string) {
+    this.svg = svg;
+    this.mensaje = mensaje;
+    this.modalAccionesVisible = true;
+  }
+
+  async redireccionar(ruta: any) {
+    // console.log(this.totalCount)
+    if (this.listaMascota.length == 0) {
+      this.redireccionarMascota = '/control/mascotas';
+      this.modalRespuesta(
+        'assets/svg/circle-info-solid.svg',
+        'No puede reservar cita si no tiene al menos una mascota registrada.'
+      );
+      return;
+    }
+    try {
+      await this.router.navigateByUrl(ruta, { replaceUrl: true });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   preCita() {
     let body: CitaRequest = {
       idCita: this.citaMantenimiento.idCita,
@@ -267,11 +355,12 @@ export class CitaComponent implements OnInit {
       motivo: this.citaMantenimiento.motivo,
       observacion: '',
       idEstadoCita: 1,
-      estado: true,
+      estado: this.datosUsuario.nombreTipo == 'Cliente' ? 1 : 2,
       creaUsuario: this.datosUsuario.login,
       modificaUsuario: this.datosUsuario.login,
       flag: this.tipoModal,
     };
+
     this.citaSubscription = this.citaService
       .mantenimientoCita(body)
       .pipe(
@@ -301,26 +390,5 @@ export class CitaComponent implements OnInit {
         })
       )
       .subscribe();
-  }
-  modalRespuesta(svg: string, mensaje: string) {
-    this.svg = svg;
-    this.mensaje = mensaje;
-    this.modalAccionesVisible = true;
-  }
-  async redireccionar(ruta: any) {
-    // console.log(this.totalCount)
-    if (this.listaMascota.length==0) {
-      this.redireccionarMascota='/control/mascotas'
-      this.modalRespuesta(
-        'assets/svg/circle-info-solid.svg',
-        'No puede reservar cita si no tiene al menos una mascota registrada.'
-      );
-      return;
-    }
-    try {
-      await this.router.navigateByUrl(ruta, { replaceUrl: true });
-    } catch (error) {
-      console.log(error);
-    }
   }
 }

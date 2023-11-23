@@ -103,7 +103,7 @@ export class ControlContainerComponent  implements OnInit {
           // Código que se ejecuta cuando se recibe la respuesta del servicio
           if (response.records) {
             this.listaNotificaciones = response.dataListModel;
-            console.log(this.listaNotificaciones);
+   //         console.log(this.listaNotificaciones);
             if(!this.flAdmin){
               this.listaNotificaciones = this.actualizarCampoEnLista("Usted");
             }

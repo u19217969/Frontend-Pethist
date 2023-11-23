@@ -53,7 +53,7 @@
               </span>
           </div>
           <p class="text-gray-700">{{usuarioMantenimiento.nombreTipoUsuario}}</p>
-          <p class="text-sm text-gray-500">{{usuarioMantenimiento.login}}</p>
+          <!--<p class="text-sm text-gray-500">{{usuarioMantenimiento.login}}</p>-->
       </div>
   </div>
 
@@ -88,7 +88,7 @@
                   inputType="text"
                   (send)="formMantenimientoUsuario.get('nombreUsuario')?.setValue($event)"
                 ></app-input-text>
-                <app-input-text
+               <!-- <app-input-text
                   class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
                   inputId="login"
                   inputTitle="Login"
@@ -96,7 +96,7 @@
                   inputPlaceHolder="Ingrese login"
                   inputType="text"
                   (send)="formMantenimientoUsuario.get('login')?.setValue($event)"
-                ></app-input-text>
+                ></app-input-text>-->
                 <app-input-text
                   class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
                   inputId="clave"

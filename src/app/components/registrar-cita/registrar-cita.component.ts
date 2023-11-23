@@ -252,7 +252,7 @@ export class RegistrarCitaComponent implements OnInit {
       motivo: this.formCitas.value.motivo,
       observacion: '',
       idEstadoCita: 1,
-      estado: true,
+      estado: 0,
       creaUsuario: this.datosUsuario.login,
       modificaUsuario: this.datosUsuario.login,
       flag: 1,
