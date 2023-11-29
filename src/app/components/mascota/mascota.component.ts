@@ -274,7 +274,7 @@ export class MascotaComponent implements OnInit {
       .listarMascota(body)
       .pipe(
         tap((response) => {
-         // console.log(response)
+         console.log(response)
           // Código que se ejecuta cuando se recibe la respuesta del servicio
           if (response.records) {
             this.dataDetalleMascota = response.dataListModel;

@@ -75,7 +75,12 @@
                 />
               </svg>
             </button>
-            <div class="mt-6">
+
+
+
+
+            
+           <!-- <div class="mt-6">
               <div
                 [class]="openNotification ? 'absolute' : 'hidden'"
                 class="overflow-auto right-14 z-10 mt-2 w-96 h-72 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
@@ -119,7 +124,64 @@
                 ></app-input-button>
                 </div>
               </div>
+            </div>-->
+
+
+
+            <div class="mt-6">
+              <div
+                [class]="openNotification ? 'absolute' : 'hidden'"
+                class="overflow-auto right-14 z-10 mt-2 w-96 h-72 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              >
+                <div
+                  *ngFor="let item of listaNotificaciones"
+                  class="flex items-center bg-white rounded-lg shadow-xl mx-auto max-w-xs relative m-5"
+                >
+                  <span
+                    class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-white bg-green-400 border rounded-full absolute top-0 right-0"
+                    [ngStyle]="{'background-color': (item.estado === 0 ? 'green' : 'red')}"
+                    >  {{item.estado==0?'Pendiente':'Finalizado'}}</span
+                  >
+                 
+
+                  <img
+                    class="h-12 w-12 ml-2 rounded-full"
+                    alt="John Doe's avatar"
+                    src="assets/images/img9.jpg"
+                  />
+
+                  <div class="ml-5">
+                    <h4
+                      class="text-sm font-semibold leading-tight text-gray-900"
+                    >
+                      {{ item.nombreCliente }}
+                    </h4>
+                    <p class="text-sm text-gray-600">
+                      {{ item.nombreCliente }} reservó una cita el día
+                      {{ item.fechaCita }} a las {{ item.horaCita }} 
+                    </p>
+                  </div>
+                </div>
+                <div class="p-5">
+                  <app-input-button
+                  (click)="redireccionar('control/notificacion')"
+                  inputTitle="Ver mas..."
+                  svgUrl="assets/svg/bell-solid.svg"
+                ></app-input-button>
+                </div>
+              </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
             <div class="relative ml-3">
               <div>
                 <button

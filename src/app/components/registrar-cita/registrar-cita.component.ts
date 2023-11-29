@@ -14,6 +14,7 @@ import { MaestroService } from 'src/app/core/services/maestro.service';
 import { TablaRequest } from 'src/app/shared/models/tabla';
 import { Select } from 'src/app/shared/models/select';
 import { CitaRequest } from 'src/app/shared/models/cita';
+import { log } from 'console';
 
 @Component({
   selector: 'app-registrar-cita',
@@ -31,11 +32,16 @@ export class RegistrarCitaComponent implements OnInit {
   modalAccionesVisible: boolean = false;
   mensaje: string = '';
   svg: string = '';
+  fechaSeleccionado: any;
   confirmacion: boolean = false;
   redireccionar: string = '';
 
   private citaSubscription: Subscription = new Subscription();
 
+  fechaA: any;
+  fechaDelMes: any;
+
+  fechaFija: any;
   listaHorario: HorarioFechaResponse[] = [];
   indexPadre: number = 0;
   indexHijo: number = 0;
@@ -50,45 +56,12 @@ export class RegistrarCitaComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    // this.lista=[
-    //   {
-    //     fecha:"24/05/2023",
-    //     nombreDia:"LUN",
-    //     horario:[
-    //       {
-    //         hora:"8:00"
-    //       },
-    //       {
-    //         hora:"8:30"
-    //       },
-    //       {
-    //         hora:"9:00"
-    //       },
-    //     ]
-    //   },
-    //   {
-    //     fecha:"25/05/2023",
-    //     nombreDia:"MAR",
-    //     horario:[
-    //       {
-    //         hora:"8:00"
-    //       },
-    //       {
-    //         hora:"8:30"
-    //       },
-    //       {
-    //         hora:"9:00"
-    //       },
-    //     ]
-    //   },
-    // ]
   }
 
   createForm() {
     this.formCitas = this.fb.group({
       idDoctor: [{ value: 0, disabled: false }],
       idMascota: [{ value: '', disabled: false }, [Validators.required]],
-      fechaCita: [{ value: '', disabled: false }, [Validators.required]],
       horaCita: [{ value: '', disabled: false }, [Validators.required]],
       motivo: [{ value: '', disabled: false }, [Validators.required]],
     });
@@ -97,12 +70,63 @@ export class RegistrarCitaComponent implements OnInit {
     this.cargarPametrosSistema();
   }
 
-  obtenerHorario() {
-    const fecha = new Date(this.formCitas.get('fechaCita')!.value);
-    const fechaDelMes = new Date(fecha.getFullYear(), fecha.getMonth(), 1);
+  cont: number = 0;
+  cambiarMes(sit: boolean): void {
+    this.fechaA = new Date();
+    if (sit) {
+      this.cont++;
+      //Obtener la fecha del mes siguiente
+      let primerDiaMesSiguiente = new Date(
+        this.fechaA.getFullYear(),
+        this.fechaA.getMonth() + this.cont,
+        1
+      );
+      this.setFechaDelMes(
+        primerDiaMesSiguiente.getFullYear(),
+        primerDiaMesSiguiente.getMonth()
+      );
+    } else {
+      this.setFechaDelMes(
+        this.fechaA.getFullYear(),
+        this.fechaA.getMonth()
+      );
+    }
+  }
+  backMonth(): void {
+    this.cont--;
+    //Obtener la fecha del mes siguiente
+    let datenow = new Date();
+    let primerDiaMesSiguiente = new Date(
+      this.fechaA.getFullYear(),
+      this.fechaA.getMonth() + this.cont,
+      1
+    );
+    console.log(primerDiaMesSiguiente + ' ' + datenow);
+    if (
+      primerDiaMesSiguiente.getFullYear() == datenow.getFullYear() &&
+      primerDiaMesSiguiente.getMonth() == datenow.getMonth()
+    ) {
+      this.setFechaDelMes(
+        primerDiaMesSiguiente.getFullYear(),
+        primerDiaMesSiguiente.getMonth()
+      );
+    } else if (primerDiaMesSiguiente < datenow) {
+      this.cont++;
+    } else {
+      this.setFechaDelMes(
+        primerDiaMesSiguiente.getFullYear(),
+        primerDiaMesSiguiente.getMonth()
+      );
+    }
+  }
+  setFechaDelMes(year: any, month: any) {
+    this.fechaDelMes = new Date(year, month, 1);
+    this.obtenerHorario();
+  }
 
+  obtenerHorario() {
     let body: HorarioFechaRequest = {
-      fechaInicio: fechaDelMes,
+      fechaInicio: this.fechaDelMes,
       idUsuario: this.datosUsuario.idUsuario,
     };
 
@@ -111,6 +135,7 @@ export class RegistrarCitaComponent implements OnInit {
       .horarioFecha(body)
       .pipe(
         tap((response) => {
+          //console.log(response)
           // Código que se ejecuta cuando se recibe la respuesta del servicio
           if (response.success && response.records) {
             this.listaHorario = response.dataListModel;
@@ -134,25 +159,27 @@ export class RegistrarCitaComponent implements OnInit {
     indexPadre: number,
     indexHijo: number
   ) {
-    const fechaActual = new Date();
-    fechaActual.setHours(0, 0, 0, 0);
+    const fechaActual2 = new Date();
+    fechaActual2.setHours(0, 0, 0, 0);
     if (fecha == null) {
-      this.fechaActual = this.datePipe.transform(fechaActual, 'yyyy-MM-dd')!;
+      /* this.fechaActual = this.datePipe.transform(fechaActual2, 'yyyy-MM-dd')!;
       this.formCitas.patchValue({
         fechaCita: this.fechaActual,
-      });
-      this.obtenerHorario();
+      });*/
+
+      //this.obtenerHorario();
+      this.cambiarMes(false);
     } else {
       const [year, month, day] = fecha.split('-').map(Number);
       const parsearFecha = new Date(year, month - 1, day);
-      if (parsearFecha < fechaActual) {
+      if (parsearFecha < fechaActual2) {
         this.modalRespuesta(
           'assets/svg/circle-info-solid.svg',
           'La fecha es anterior a la fecha actual.'
         );
-      } else if (parsearFecha > fechaActual) {
+      } else if (parsearFecha > fechaActual2) {
+        this.fechaFija = fecha;
         this.formCitas.patchValue({
-          fechaCita: fecha,
           horaCita: hora,
         });
         this.listaHorario[this.indexPadre].horario![this.indexHijo].seleccion =
@@ -162,8 +189,8 @@ export class RegistrarCitaComponent implements OnInit {
         this.indexHijo = indexHijo;
       } else {
         if (this.maestroService.validarHora(new Date(), hora)) {
+          this.fechaFija = fecha;
           this.formCitas.patchValue({
-            fechaCita: fecha,
             horaCita: hora,
           });
           this.listaHorario[this.indexPadre].horario![
@@ -181,13 +208,13 @@ export class RegistrarCitaComponent implements OnInit {
       }
     }
   }
-  consultarFecha(fecha: Date) {
+  /*consultarFecha(fecha: Date) {
     this.formCitas.patchValue({
       fechaCita: this.datePipe.transform(fecha, 'yyyy-MM-dd')!,
       horaCita: '',
     });
-    this.obtenerHorario();
-  }
+    //this.obtenerHorario();
+  }*/
   cargarPametrosSistema() {
     this.mostrarVeterinario();
     this.mostrarMascota();
@@ -247,7 +274,8 @@ export class RegistrarCitaComponent implements OnInit {
       idCita: 0,
       idDoctor: this.formCitas.value.idDoctor,
       idMascota: this.formCitas.value.idMascota,
-      fechaCita: this.formCitas.value.fechaCita,
+      fechaCita: this.fechaFija,
+
       horaCita: this.formCitas.value.horaCita,
       motivo: this.formCitas.value.motivo,
       observacion: '',
@@ -256,6 +284,7 @@ export class RegistrarCitaComponent implements OnInit {
       creaUsuario: this.datosUsuario.login,
       modificaUsuario: this.datosUsuario.login,
       flag: 1,
+      idUser: this.datosUsuario.idUsuario,
     };
     this.citaSubscription = this.citaService
       .mantenimientoCita(body)

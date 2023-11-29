@@ -12,7 +12,7 @@
       <div class="grid grid-cols-12 gap-4 m-auto">
         <app-input-text
           class="sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 col-span-full"
-          inputId="clave"
+          inputId="contrasenia"
           inputTitle="Contraseña"
           inputPlaceHolder="Ingrese su nueva contraseña"
           inputType="password"
@@ -20,11 +20,13 @@
           svgUrlAccion="assets/svg/eye-solid.svg"
           [inputMinLength]="8"
           [inputMaxLength]="25"
+          (send)="formPassword.get('contrasenia')?.setValue($event)"
         ></app-input-text>
       </div>
       <app-input-button
       inputTitle="Actualizar"
       svgUrl="assets/svg/rotate-right-solid.svg"
+      (click)="actualizarContrasenia()"
     ></app-input-button>
     <div class="flex justify-between mt-4">
       <a
@@ -38,3 +40,12 @@
   </div>
 </div>
 </div>
+<app-modal-actions
+    [visible]="modalAccionesVisible"
+    title=""
+    [svgUrl]="svg"
+    [descripcion]="mensaje"
+    (close)="modalAccionesVisible = false"
+    [redireccionar]="routerLink"
+    size="w-96"
+  ></app-modal-actions>

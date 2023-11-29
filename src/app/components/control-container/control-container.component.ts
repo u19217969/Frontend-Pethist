@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import axios from 'axios';
 import { Subscription, tap, map, catchError } from 'rxjs';
 import { AuthorizesService } from 'src/app/core/services/authorizes.service';
 import { MaestroService } from 'src/app/core/services/maestro.service';
@@ -14,42 +15,68 @@ import { ParametroMaestro } from 'src/app/shared/models/parametro-maestro';
   templateUrl: './control-container.component.html',
   styleUrls: ['./control-container.component.scss'],
 })
-export class ControlContainerComponent  implements OnInit {
-
-  openUser:boolean=false;
-  openNotification:boolean=false;
+export class ControlContainerComponent implements OnInit {
+  openUser: boolean = false;
+  openNotification: boolean = false;
   datosUsuario: Authorize = {};
   flAdmin: boolean = false;
-  listaNotificaciones:any[]=[];
-
+  listaNotificaciones: any[] = [];
+  //variable donde se almacenara el objeto EventSource - SSE
+  source: any;
   private notificacionSubscription: Subscription = new Subscription();
   constructor(
-    private router:Router,
-    private authorizesService:AuthorizesService,
+    private router: Router,
+    private authorizesService: AuthorizesService,
     private permisoService: PermisoService,
     private maestroService: MaestroService,
-    private notificacionService:NotificacionService
-  ) { }
+    private notificacionService: NotificacionService,
+  ) {}
 
   ngOnInit() {
     this.cargarPametrosSistema();
   }
 
-  openUserDetail(){
-    this.openNotification=false;
-    this.openUser=!this.openUser;
+  openUserDetail() {
+    this.openNotification = false;
+    this.openUser = !this.openUser;
     // this.openUser=this.openUser=='hidden'?'absolute':'hidden';
   }
 
-  openUserNotification(){
-    this.openUser=false;
-    this.openNotification=!this.openNotification;
+  openUserNotification() {
+    this.openUser = false;
+    this.openNotification = !this.openNotification;
   }
 
   cargarPametrosSistema() {
     this.validarTipoUsuario();
+    this.notificacionesSSE();
   }
-
+  /******************************* */
+  //messages: any[] = [];
+  notificacionesSSE() {
+    const urlEndPoint = `http://localhost:9000/notificationSSE/subscribe?userID=${this.datosUsuario.idUsuario}`;
+   /* const token = this.authorizesService.obtenerToken();
+    this.source = axios.get(urlEndPoint, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    }); */
+    const source= new EventSource(urlEndPoint);
+    source.addEventListener('latestNews', (event) => {
+      // this.messages.push(JSON.parse(event.data));
+      //console.log(JSON.parse(event.data));
+      this.listaNotificaciones = JSON.parse(event.data).result;
+      console.log(this.listaNotificaciones);
+      if (!this.flAdmin) {
+        this.listaNotificaciones = this.actualizarCampoEnLista('Usted');
+      }
+      //console.log(this.messages);
+    });
+    source.addEventListener('error', (event) => {
+      console.log('Error cargando el recurso:', event);
+    });
+  }
+  /******************************* */
   validarTipoUsuario() {
     this.datosUsuario = this.authorizesService.obtenerUsuarioAutentificacion();
     const id = ParametroMaestro.validarAdministrador;
@@ -67,6 +94,9 @@ export class ControlContainerComponent  implements OnInit {
           } else {
             this.flAdmin = false;
           }
+          //suscribiendo al usuario para que pueda recibir notificaciones
+           // this.source = this.notificacionService.Suscribcion(this.datosUsuario.idUsuario);
+          //listando las notificaciones - tradicional
           this.listarNotificaciones(1);
         }),
         map((response) => {
@@ -93,7 +123,7 @@ export class ControlContainerComponent  implements OnInit {
       numeroPagina: numeroPagina,
       numeroRegistros: 5,
       idUsuario: idUsuario,
-      fechaInicio: new Date(),
+      //fechaInicio: new Date(),
       filtro: '',
     };
     this.notificacionSubscription = this.notificacionService
@@ -103,9 +133,10 @@ export class ControlContainerComponent  implements OnInit {
           // Código que se ejecuta cuando se recibe la respuesta del servicio
           if (response.records) {
             this.listaNotificaciones = response.dataListModel;
-   //         console.log(this.listaNotificaciones);
-            if(!this.flAdmin){
-              this.listaNotificaciones = this.actualizarCampoEnLista("Usted");
+            console.log(this.listaNotificaciones);
+            //         console.log(this.listaNotificaciones);
+            if (!this.flAdmin) {
+              this.listaNotificaciones = this.actualizarCampoEnLista('Usted');
             }
           }
         }),
@@ -122,28 +153,26 @@ export class ControlContainerComponent  implements OnInit {
       .subscribe();
   }
 
-  actualizarCampoEnLista(nombre:string) {
-    const nuevaLista= this.listaNotificaciones.map((notitifacion) => {
+  actualizarCampoEnLista(nombre: string) {
+    const nuevaLista = this.listaNotificaciones.map((notitifacion) => {
       return {
         ...notitifacion,
-        nombreCliente: nombre
+        nombreCliente: nombre,
       };
     });
     return nuevaLista;
   }
 
-  async redireccionar(ruta:any) {
-    this.openNotification=false;
-    this.openUser=false;
+  async redireccionar(ruta: any) {
+    this.openNotification = false;
+    this.openUser = false;
     try {
       await this.router.navigateByUrl(ruta, { replaceUrl: false });
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
-  cerrarSesion(){
+  cerrarSesion() {
     this.authorizesService.cerrarSesion();
     this.permisoService.permisosNoConcedido();
   }
-
 }

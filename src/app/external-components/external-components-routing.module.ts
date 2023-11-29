@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: "recover-password", component: RecoverPasswordComponent },
   { path: "registrar-usuario", component: RegistrarUsuarioComponent },
   { path: "cambiar-clave", component: CambiarContrasenaComponent },
+  { path: "cambiar-clave/:token", component: CambiarContrasenaComponent },
 ];
 
 @NgModule({

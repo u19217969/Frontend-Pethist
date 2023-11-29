@@ -81,10 +81,9 @@
     (close)="modalCitaVisible = false"
     size="w-3/4"
   >
-    <div class="grid grid-cols-12 gap-4 m-auto">
+    <div class="grid grid-cols-2 gap-4 m-auto">
       <app-input-select
         inputId="doctor"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         [inputValor]="citaMantenimiento.nombreDoctor!"
         inputTitle="Doctor"
         [options]="listaDoctor"
@@ -92,21 +91,18 @@
       ></app-input-select>
       <app-input-select
         inputId="doctor"
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         [inputValor]="citaMantenimiento.nombreMascota!"
         inputTitle="Mascota"
         [options]="listaMascota"
         [noEditable]="tipoModal === 4 ? true : false"
       ></app-input-select>
       <app-input-date
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="fechaCita"
         inputTitle="Fecha Cita"
         [noEditable]="tipoModal === 4 ? true : false"
         [inputValor]="citaMantenimiento.fechaCita!"
       ></app-input-date>
       <app-input-text
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="horaCita"
         inputTitle="Hora cita"
         [inputValor]="citaMantenimiento.horaCita!"

@@ -40,7 +40,7 @@ export class NotificacionComponent  implements OnInit {
     { titulo: 'Mascota', campo: 'nombreMascota', tipo: 'text', visible: true },
     { titulo: 'Fecha cita', campo: 'fechaCita', tipo: 'date', visible: true },
     { titulo: 'Hora cita', campo: 'horaCita', tipo: 'text', visible: true },
-    { titulo: 'Estado', campo: 'estado', tipo: 'boolean', visible: true },
+    { titulo: 'Estado', campo: 'estado', tipo: 'int', visible: true },
     { titulo: 'Acciones', campo: '', tipo: 'button', visible: false },
   ];
   dataDetalle: Array<any> = [];
@@ -112,7 +112,7 @@ export class NotificacionComponent  implements OnInit {
       numeroPagina: numeroPagina,
       numeroRegistros: this.numeroRegistros,
       idUsuario: idUsuario,
-      fechaInicio: new Date(),
+    //  fechaInicio: new Date(),
       filtro: this.formNotificacionFiltros.value.filtro
     };
     this.notificacionSubscription = this.notificacionService
@@ -120,6 +120,7 @@ export class NotificacionComponent  implements OnInit {
       .pipe(
         tap((response) => {
           // Código que se ejecuta cuando se recibe la respuesta del servicio
+            console.log(response)
           if (response.records) {
             this.dataDetalle = response.dataListModel;
             this.totalPages = this.maestroService.generarNumeros(

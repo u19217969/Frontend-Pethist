@@ -14,6 +14,8 @@ export interface CitaRequest {
   creaUsuario?: string;
   modificaUsuario?: string;
   flag?: number;
+  //atributos
+  idUser?:number;
 }
 //Solicitud de filtro de cita
 export interface CitaListRequest {

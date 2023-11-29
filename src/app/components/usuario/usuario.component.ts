@@ -51,6 +51,9 @@ export class UsuarioComponent implements OnInit {
   numeroPagina = 1;
   numeroRegistros = 5;
 
+  flNroDocumento: boolean = true;
+  lengthNroDocumento: number = 0;
+
   dataCabeceraUsuario: Array<datat> = [
     {
       titulo: 'Nombre completo',
@@ -129,13 +132,13 @@ export class UsuarioComponent implements OnInit {
     });
     this.formMantenimientoUsuario = this.fb.group({
       idUsuario: [{ value: 0, disabled: false }],
-      idTipoDocumento: [{ value: 0, disabled: false }, [Validators.required]],
-      idTipoUsuario: [{ value: 0, disabled: false }, [Validators.required]],
-      nombreUsuario: [{ value: '', disabled: false }, [Validators.required]],
-      login: [{ value: '', disabled: false }, [Validators.required]],
+      idTipoDocumento: [{ value: '', disabled: false }, [Validators.required]],
+      idTipoUsuario: [{ value: 0, disabled: false }],
+      nombreUsuario: [{ value: '', disabled: false }, [Validators.required,Validators.minLength(5),Validators.maxLength(255)]],
+      login: [{ value: '', disabled: false }],
       nroDocumento: [{ value: '', disabled: false }, [Validators.required]],
-      clave: [{ value: '', disabled: false }],
-      correo: [{ value: '', disabled: false }, [Validators.required]],
+      clave: [{ value: '', disabled: false }, [Validators.required,Validators.minLength(8),Validators.maxLength(25)]],
+      correo: [{ value: '', disabled: false }, [Validators.required,Validators.email,Validators.maxLength(50)]],
       estado: [{ value: 0, disabled: false }],
       creaUsuario: [{ value: '', disabled: false }],
       modificaUsuario: [{ value: '', disabled: false }],
@@ -248,9 +251,9 @@ export class UsuarioComponent implements OnInit {
   preAgregarUsuario() {
     this.usuarioInsert = {
       idUsuario: this.formMantenimientoUsuario.get('idUsuario')!.value,
-      idTipoDocumento:
-        this.formMantenimientoUsuario.get('idTipoDocumento')!.value,
+      idTipoDocumento:this.formMantenimientoUsuario.get('idTipoDocumento')!.value,
       idTipoUsuario: this.formMantenimientoUsuario.get('idTipoUsuario')!.value,
+    
       nombreUsuario: this.formMantenimientoUsuario.get('nombreUsuario')!.value,
    //   login: this.formMantenimientoUsuario.get('login')!.value,
       nroDocumento: this.formMantenimientoUsuario.get('nroDocumento')!.value,
@@ -261,6 +264,7 @@ export class UsuarioComponent implements OnInit {
       modificaUsuario: this.datosUsuario.login,
       flag: this.tipoModal,
     };
+
     this.agregarUsuario(this.usuarioInsert);
   }
   agregarUsuario(usuarioRequest: UsuarioRequest) {
@@ -431,5 +435,34 @@ export class UsuarioComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+
+  changeTipoDocumento(event: any) {
+    this.formMantenimientoUsuario
+      .get('idTipoDocumento')
+      ?.setValue(event.idMaestro);
+    this.flNroDocumento = false;
+    console.log(event);
+    if (event.nombreMaestro == 'DNI') {
+      this.lengthNroDocumento = 8;
+      this.formMantenimientoUsuario
+        .get('nroDocumento')!
+        .setValidators([
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(8),
+        ]);
+    }
+    if (event.nombreMaestro == 'CE') {
+      this.lengthNroDocumento = 11;
+      this.formMantenimientoUsuario
+        .get('nroDocumento')!
+        .setValidators([
+          Validators.required,
+          Validators.minLength(11),
+          Validators.maxLength(11),
+        ]);
+    }
   }
 }

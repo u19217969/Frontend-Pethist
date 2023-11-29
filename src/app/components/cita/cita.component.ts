@@ -215,7 +215,7 @@ export class CitaComponent implements OnInit {
       .listarCita(body)
       .pipe(
         tap((response) => {
-          // console.log(response)
+           console.log(response)
           // Código que se ejecuta cuando se recibe la respuesta del servicio
           if (response.records) {
             this.dataDetalleCita = response.dataListModel;
@@ -288,6 +288,7 @@ export class CitaComponent implements OnInit {
       creaUsuario: this.datosUsuario.login,
       modificaUsuario: this.datosUsuario.login,
       flag: this.tipoModal,
+      idUser: (this.flAdmin?  this.citaMantenimiento.idCliente:this.datosUsuario.idUsuario)
     };
 
     this.citaSubscription = this.citaService
@@ -359,6 +360,7 @@ export class CitaComponent implements OnInit {
       creaUsuario: this.datosUsuario.login,
       modificaUsuario: this.datosUsuario.login,
       flag: this.tipoModal,
+      idUser: (this.flAdmin?  this.citaMantenimiento.idCliente:this.datosUsuario.idUsuario)
     };
 
     this.citaSubscription = this.citaService

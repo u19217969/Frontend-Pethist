@@ -26,6 +26,17 @@ export class UsuarioService {
     );
   }
 
+  actualizarContrasenia(request: {}): Observable<JsonResult<any>> {
+    const urlBackServicePH = `${this.urlServices}actualizarContrasenia`;
+    const httpParams = JSON.stringify(request);
+    let mheaders: HttpHeaders = new HttpHeaders();
+    mheaders = mheaders.append('Content-Type', 'application/json');
+    return this.httpClient.post<JsonResult<any>>(
+      urlBackServicePH,
+      httpParams,
+      { headers: mheaders }
+    );
+  }
   listarUsuario(usuarioRequest: UsuarioListRequest): Observable<JsonResult<any>> {
     const urlBackServicePH = `${this.urlServices}lista`;
     const httpParams = JSON.stringify(usuarioRequest);

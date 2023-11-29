@@ -1,6 +1,4 @@
-<div
-class="w-full px-12 py-9"
->
+<div class="w-full px-12 py-9">
   <app-card cardTitle="">
     <div class="grid grid-cols-12 gap-4 m-auto">
       <app-input-select
@@ -17,15 +15,15 @@ class="w-full px-12 py-9"
         [options]="listaMascota"
         (send)="formCitas.get('idMascota')?.setValue($event.idMaestro)"
       ></app-input-select>
-      <app-input-date
+      <!--<app-input-text
         class="sm:col-span-12 md:col-span-4 lg:col-span-2 xl:col-span-2 col-span-full"
         inputId="fechaCita"
         inputTitle="Fecha"
-        [inputValor]="this.formCitas.get('fechaCita')!.value"
-        (send)="consultarFecha($event)"
-      ></app-input-date>
+        [inputValor]="this.formCitas.get('fechaCita')?.value"
+        [disableInput]="true"
+      ></app-input-text>-->
       <app-input-text
-        class="sm:col-span-12 md:col-span-12 lg:col-span-5 xl:col-span-5 col-span-full"
+        class="sm:col-span-12 md:col-span-12 lg:col-span-5 xl:col-span-7 col-span-full"
         inputId="motivo"
         inputTitle="Motivo"
         [inputValor]="this.formCitas.get('motivo')!.value"
@@ -56,6 +54,22 @@ class="w-full px-12 py-9"
         <div class="mt-3">
           <app-card cardTitle="" colorFondo="bg-[#f3f3f3] p-2">
             <div class="flex justify-center gap-4">
+              <a (click)="backMonth()">
+                <div
+                  class="absolute left-20 flex flex-col p-1 bg-gray-600 cursor-pointer hover:bg-opacity-80 transition-all active:bg-opacity-100 w-11 border-rose-500 text-white rounded mt-1"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="15"
+                    viewBox="0 0 448 512"
+                  >
+                    <path
+                      class="fill-white"
+                      d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+                    />
+                  </svg>
+                </div>
+              </a>
               <div
                 class="flex flex-col p-1 bg-[#eb4d4b] w-32 border-rose-500 text-white rounded mt-1"
               >
@@ -76,6 +90,22 @@ class="w-full px-12 py-9"
               >
                 <div class="text-center">Seleccionar</div>
               </div>
+              <a (click)="cambiarMes(true)">
+                <div
+                  class="absolute right-20 flex flex-col p-1 bg-gray-600 cursor-pointer hover:bg-opacity-80 transition-all active:bg-opacity-100 w-11 border-rose-500 text-white rounded mt-1"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="15"
+                    viewBox="0 0 448 512"
+                  >
+                    <path
+                      class="fill-white"
+                      d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"
+                    />
+                  </svg>
+                </div>
+              </a>
             </div>
           </app-card>
         </div>

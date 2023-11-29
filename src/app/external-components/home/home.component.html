@@ -3,94 +3,83 @@
     <a class="text-3xl font-bold leading-none" href="javascript:void(0);">
       <img class="w-14" src="assets/images/logoPetHist.png" alt="" />
     </a>
-    <ul
-      class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 shadow-xl px-8 py-3 rounded-2xl ul-color"
-    >
+    <div class="lg:hidden">
+      <!-- Botón para dispositivos móviles -->
+      <button id="mobile-menu-button"
+              class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+              (click)="toggleMobileMenu()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+    <div *ngIf="isMobileMenuOpen" class="lg:hidden fixed inset-0 z-50" (click)="toggleMobileMenu()">
+      <!-- Fondo marrón para el menú lateral -->
+      <div class="bg-[#604F0A] top-20 absolute w-full rounded-md">
+        <!-- Menú lateral para dispositivos móviles -->
+        <div class="flex items-center justify-end h-full w-full">
+          <ul class="text-lg  text-white w-full" (click)="toggleMobileMenu()">
+            <li class="py-6 px-8 w-full hover:bg-[#A58811]"><a class="block w-full"  href="#inicio">Inicio</a></li>
+            <li class="py-6 px-8 w-full hover:bg-[#A58811]"><a class="block w-full" href="#nuestraveterinaria">Nuestra Veterinaria</a></li>
+            <li class="py-6 px-8 w-full hover:bg-[#A58811]"><a class="block w-full" href="#servicios">Servicios</a></li>
+            <li class="py-6 px-8 w-full hover:bg-[#A58811]"><a class="block w-full" href="#contacto">Contacto</a></li>
+            <li class="py-6 px-8 w-full hover:bg-[#A58811]"><a class="block w-full" href="./login">Ingresar</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <ul class="hidden lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 shadow-xl px-8 py-3 rounded-2xl ul-color">
       <li class="px-2">
         <a class="text-base li-color-text" href="#inicio">Inicio</a>
       </li>
-      <!--<li class="text-gray-300">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          stroke="currentColor"
-          class="w-4 h-4 current-fill"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-          />
-        </svg>
-      </li>-->
       <li class="px-2">
-        <a
-          href="#nuestraveterinaria"
-          class="text-base li-color-text hover:text-gray-500"
-          >Nuestra Veterinaria</a
-        >
+        <a href="#nuestraveterinaria" class="text-base li-color-text hover:text-gray-500">Nuestra Veterinaria</a>
       </li>
-      <!-- <li class="text-gray-300">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          stroke="currentColor"
-          class="w-4 h-4 current-fill"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-          />
-        </svg>
-      </li> -->
       <li class="px-2">
-        <a href="#servicios" class="text-base li-color-text hover:text-gray-500"
-          >Servicios</a
-        >
+        <a href="#servicios" class="text-base li-color-text hover:text-gray-500">Servicios</a>
       </li>
-
       <li class="px-2">
-        <a href="#contacto" class="text-base li-color-text hover:text-gray-500"
-          >Contacto</a
-        >
+        <a href="#contacto" class="text-base li-color-text hover:text-gray-500">Contacto</a>
       </li>
     </ul>
-    <a
-      class="hidden lg:inline-block py-2 px-6 font-bold rounded-xl color-logo2 text-base"
-      href="./login"
-      >Ingresar</a
-    >
+    <a class="hidden lg:inline-block py-2 px-6 font-bold rounded-xl color-logo2 text-base" href="./login">Ingresar</a>
   </nav>
+
   <div id="inicio" class="nav-color">
     <div class="p-10 container m-auto">
       <section class="text-gray-800">
-        <div class="flex">
-          <div class="flex flex-col">
+        <div class="flex flex-col lg:flex-row">
+          <!-- Primera columna con 2 filas en pantallas grandes -->
+          <div class="lg:w-1/2 flex flex-col p-4">
             <div class="p-2">
-              <h1 class="font-bold mb-12 px-6 titulo-inicio">
+              <h1 class="font-bold mb-6 lg:mb-12 px-6 titulo-inicio">
                 Veterinaria PetHist
               </h1>
 
-              <div class="px-6 text-left text-black mb-5 mt-8 text-base">
+              <div class="px-6 text-left text-black mb-5 mt-4 lg:mt-8 text-base">
                 En nuestra veterinaria, velamos por la salud y felicidad de tus
                 fieles amigos. ¡Juntos hacemos el mejor equipo!
               </div>
               <div class="text-left px-6">
                 <a
+                  class="inline-block lg:hidden py-2 px-6 color-logo font-bold rounded-2xl text-base mb-4"
+                  href="./registrar-usuario"
+                >
+                  Únete ahora y regístrate
+                </a>
+                <a
                   class="hidden lg:inline-block py-2 px-6 color-logo font-bold rounded-2xl text-base"
                   href="./registrar-usuario"
-                  >Únete ahora y regístrate</a
                 >
+                  Únete ahora y regístrate
+                </a>
               </div>
             </div>
 
             <div class="p-2">
-              <div class="px-6 mt-6">
+              <div class="px-6 mt-4 lg:mt-6">
                 <app-carousel
                   class="rounded-xl"
                   imageUrlUno="assets/images/consulta.jpg"
@@ -104,12 +93,9 @@
           </div>
 
           <!-- Segunda columna con 1 fila -->
-          <div class="p-2">
-            <div align="center">
-              <img
-                class="inicio-img"
-                src="../../../assets/images/inicio1.png"
-              />
+          <div class="lg:w-1/2 p-2">
+            <div class="lg:float-right lg:mr-6">
+              <img class="inicio-img" src="../../../assets/images/inicio1.png" />
             </div>
           </div>
         </div>

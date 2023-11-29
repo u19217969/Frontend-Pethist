@@ -35,6 +35,7 @@ class="w-full px-12 py-9"
           [currentPage]="currentPage"
           [totalCount]="totalCount"
           [numeroTotalPage]="numeroTotalPages"
+          (sendPagination)="listarNotificaciones($event)"
         ></app-grid>
       </div>
     </div>

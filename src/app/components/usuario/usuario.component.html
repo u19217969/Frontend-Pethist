@@ -1,6 +1,4 @@
-<div
-class="w-full px-12 py-9"
->
+<div class="w-full px-12 py-9">
   <app-card cardTitle="">
     <div class="grid grid-cols-10 gap-4 m-auto">
       <app-input-text
@@ -27,6 +25,9 @@ class="w-full px-12 py-9"
         inputTitle="Nro Documento"
         inputPlaceHolder="Ingrese nro documento"
         inputType="text"
+        [inputMaxLength]="11"
+        [inputMinLength]="8"
+        [numericOnly]="true"
         (send)="formUsuariosFiltros.get('nroDocumento')?.setValue($event)"
       ></app-input-text>
       <app-input-select
@@ -93,19 +94,19 @@ class="w-full px-12 py-9"
     (close)="modalUsuarioVisible = false"
     size="w-3/4"
   >
-    <div class="grid grid-cols-3 gap-4 m-auto">
+    <div class="grid grid-cols-2 gap-4 m-auto">
       <app-input-select
         inputId="tipoDocumentoModal"
         [inputValor]="usuarioMantenimiento.nombreTipoDocumento!"
         inputTitle="Tipo Documento"
         [options]="listaTipoDocumento"
-        [noEditable]="true"
+        [noEditable]="tipoModal != 4 && tipoModal!=2 ? false : true"
+        (send)="changeTipoDocumento($event)"
         (send)="
           formMantenimientoUsuario
             .get('idTipoDocumento')
             ?.setValue($event.idMaestro)
         "
-
       ></app-input-select>
       <app-input-text
         inputId="nroDocumentoModal"
@@ -113,7 +114,10 @@ class="w-full px-12 py-9"
         [inputValor]="this.formMantenimientoUsuario.get('nroDocumento')!.value"
         inputPlaceHolder="Ingrese nro documento"
         inputType="text"
-        [disableInput]="true"
+        [disableInput]="tipoModal != 4 && tipoModal!=2 ? false : true"
+        [inputMaxLength]="lengthNroDocumento"
+        [inputMinLength]="lengthNroDocumento"
+        [numericOnly]="true"
         (send)="formMantenimientoUsuario.get('nroDocumento')?.setValue($event)"
       ></app-input-text>
       <!--<app-input-text
@@ -131,7 +135,7 @@ class="w-full px-12 py-9"
         [inputValor]="usuarioMantenimiento.nombreTipoUsuario!"
         inputTitle="Tipo usuario"
         [options]="listaTipoUsuario"
-        [noEditable]="tipoModal===4?true:false"
+        [noEditable]="tipoModal == 4 ? true : false"
         (send)="
           formMantenimientoUsuario
             .get('idTipoUsuario')
@@ -139,13 +143,22 @@ class="w-full px-12 py-9"
         "
       ></app-input-select>
       <app-input-text
-        class="col-span-3"
         inputId="nombre"
         inputTitle="Nombre completo"
         [inputValor]="this.formMantenimientoUsuario.get('nombreUsuario')!.value"
         inputPlaceHolder="Ingrese nombre completo"
         inputType="text"
-        [disableInput]="tipoModal===4?true:false"
+        [disableInput]="tipoModal == 4 ? true : false"
+        [inputMinLength]="tipoModal == 4? 0:3"
+        [inputMaxLength]="tipoModal == 4? 0:50"
+        [inputRequired]="
+        formMantenimientoUsuario
+          .get('nombreUsuario')!
+          .hasError('required')
+      "
+      inputMessageRequired="Por favor, ingrese su nombre completo."
+     
+        [textOnly]="true"
         (send)="formMantenimientoUsuario.get('nombreUsuario')?.setValue($event)"
       ></app-input-text>
       <!--<app-input-text
@@ -157,6 +170,7 @@ class="w-full px-12 py-9"
         inputType="text"
         (send)="formMantenimientoUsuario.get('login')?.setValue($event)"
       ></app-input-text>-->
+
       <!--<app-input-text
         class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
         inputId="clave"
@@ -166,15 +180,38 @@ class="w-full px-12 py-9"
         inputType="password"
         (send)="formMantenimientoUsuario.get('clave')?.setValue($event)"
       ></app-input-text>-->
+
       <app-input-text
-        class="sm:col-span-12 md:col-span-3 lg:col-span-3 xl:col-span-3 col-span-full"
+        [class]="tipoModal == 4|| tipoModal==2 ? 'col-span-2' : ''"
         inputId="correo"
         inputTitle="Correo"
         [inputValor]="this.formMantenimientoUsuario.get('correo')!.value"
         inputPlaceHolder="Ingrese correo"
         inputType="text"
-        [disableInput]="true"
+        [disableInput]="tipoModal == 4 ? true : false"
+        [inputMinLength]="tipoModal == 4? 0:5"
+        [inputMaxLength]="tipoModal == 4? 0:50"
+        [inputRequired]="
+        formMantenimientoUsuario.get('correo')!.hasError('required')
+      "
+       inputMessageRequired="Por favor, ingrese su dirección de correo electrónico."
+           
         (send)="formMantenimientoUsuario.get('correo')?.setValue($event)"
+      ></app-input-text>
+      <app-input-text
+        *ngIf="tipoModal != 4 && tipoModal!=2"
+        inputId="clave"
+        inputTitle="Contraseña"
+        inputPlaceHolder="Ingresa contraseña"
+        inputType="password"
+        (send)="formMantenimientoUsuario.get('clave')?.setValue($event)"
+        [inputRequired]="
+        formMantenimientoUsuario.get('clave')!.hasError('required')
+      "
+        inputMessageRequired="Por favor, ingrese su contraseña."
+        svgUrlAccion="assets/svg/eye-solid.svg"
+        [inputMinLength]="8"
+        [inputMaxLength]="25"
       ></app-input-text>
     </div>
     <div class="flex justify-center mt-5" *ngIf="tipoModal !== 4">
@@ -187,15 +224,14 @@ class="w-full px-12 py-9"
         ></app-input-button-modal>
       </div>
       <div class="w-1/4 ml-2">
-        <app-input-button-modal
+        <!--<app-input-button-modal
           class="opacity-60"
           *ngIf="!formMantenimientoUsuario.valid"
           type="blue"
           typeColorText="white"
           inputTitle="Guardar"
-        ></app-input-button-modal>
+        ></app-input-button-modal>-->
         <app-input-button-modal
-          *ngIf="formMantenimientoUsuario.valid"
           type="blue"
           typeColorText="white"
           inputTitle="Guardar"
@@ -219,15 +255,13 @@ class="w-full px-12 py-9"
     (close)="modalAccesoVisible = false"
     size="w-3/4"
   >
-  <section class="gradient-form h-full  dark:bg-neutral-700">
-    <div class="container h-full">
+    <section class="gradient-form h-full dark:bg-neutral-700">
+      <div class="container h-full">
         <div
           class="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200"
         >
           <div class="w-full">
-            <div
-              class="block rounded-lg dark:bg-neutral-800"
-            >
+            <div class="block rounded-lg dark:bg-neutral-800">
               <div class="g-0 lg:flex lg:flex-wrap">
                 <div class="px-4 md:px-0 lg:w-6/12">
                   <div class="md:p-4">
@@ -240,7 +274,7 @@ class="w-full px-12 py-9"
                       class="rounded-lg flex items-center justify-between space-x-8"
                       *ngFor="let item of listMenuAcceso"
                     >
-                      <div class="flex-1 flex justify-between items-center" >
+                      <div class="flex-1 flex justify-between items-center">
                         <div class="p-2 mt-2 w-48 bg-gray-300 rounded">
                           {{ item.nombre }}
                         </div>
@@ -371,7 +405,7 @@ class="w-full px-12 py-9"
                               itemHijo.url == '/control/citas'
                             "
                           >
-                            <app-input-check 
+                            <app-input-check
                               size="w-5 h-5"
                               [check]="itemHijo.procesar!"
                               title="Procesar"

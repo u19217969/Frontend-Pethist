@@ -112,6 +112,9 @@
         inputPlaceHolder="Ingrese nombre mascota"
         inputType="text"
         [disableInput]="tipoModal === 4 ? true : false"
+        [inputMinLength]="0"
+        [inputMaxLength]="0"
+        [textOnly]="true"
         (send)="formMantenimientoMascota.get('nombreMascota')?.setValue($event)"
       ></app-input-text>
       <app-input-date
@@ -132,6 +135,9 @@
         inputPlaceHolder="Ingrese color"
         [disableInput]="tipoModal === 4 ? true : false"
         inputType="text"
+        [inputMinLength]="0"
+        [inputMaxLength]="0"
+        [textOnly]="true"
         (send)="formMantenimientoMascota.get('colorMascota')?.setValue($event)"
       ></app-input-text>
       <app-input-select

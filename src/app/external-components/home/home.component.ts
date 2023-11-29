@@ -5,8 +5,16 @@ import { Component, ElementRef, OnInit } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent  implements OnInit {
 
+export class HomeComponent  implements OnInit {
+  isMobileMenuOpen = false;
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+  }
   constructor(
     private el: ElementRef
   ) { }
@@ -33,5 +41,6 @@ export class HomeComponent  implements OnInit {
       targetElement.scrollIntoView({ behavior: 'smooth' });
     }
   }
+
 
 }
